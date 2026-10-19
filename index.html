@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Junior Motos">
+<meta name="theme-color" content="#111112">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="preload" href="fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="logo-negativo.png" as="image">
+<title>Junior Motos</title>
+<style>
+/* Barlow Condensed — SIL Open Font License (ver fonts/LICENSE-Barlow.txt) */
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:600;font-display:swap;src:url("fonts/barlow-condensed-600.woff2") format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/barlow-condensed-700.woff2") format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-style:italic;font-weight:700;font-display:swap;src:url("fonts/barlow-condensed-700-italic.woff2") format("woff2")}
+
+/* Cores da Junior Motos: preto, vermelho da logo e branco.
+   A faixa vermelha inclinada e os títulos em itálico vêm do "MOTOS" da logo. */
+:root{
+  --fundo:#f1f1f2; --papel:#ffffff; --papel-2:#f6f6f7;
+  --tinta:#161616; --tinta-2:#5c5c66; --tinta-3:#8e8e98;
+  --pauta:#e3e3e7; --pauta-forte:#c9c9d0;
+  --vermelho:#e3120b; --vermelho-vivo:#ff2e26; --numero:#e3120b;
+  --wpp:#1e9e52; --perigo:#e3120b; --preench:rgba(22,22,22,.06);
+  --topo:#111112; --sobre-topo:#c9c9cf;
+  --bolha:#dcf7c5; --bolha-txt:#173a22;
+  --s-fila:#8a8a94; --s-aprovacao:#8b5cf6; --s-servico:#2563eb; --s-peca:#f08c00;
+  --s-pronta:#1f9d55; --s-entregue:#2b2b30; --s-cancelada:#b4b4bc;
+  --cond:"Barlow Condensed","Arial Narrow",sans-serif;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --fundo:#0d0d0f; --papel:#18181b; --papel-2:#1f1f23;
+    --tinta:#f3f3f4; --tinta-2:#a0a0aa; --tinta-3:#6e6e78;
+    --pauta:#2a2a30; --pauta-forte:#3b3b43;
+    --vermelho:#ef1d16; --numero:#ff3b33; --preench:rgba(255,255,255,.07);
+    --topo:#000000; --bolha:#14452f; --bolha-txt:#e3f4e8;
+    --s-fila:#9a9aa4; --s-servico:#4f8ef7; --s-entregue:#d0d0d6; --s-cancelada:#6e6e78;
+  }
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{background:var(--fundo);-webkit-text-size-adjust:100%;overscroll-behavior-y:none}
+body{margin:0;min-height:100vh;background:var(--fundo);color:var(--tinta);font-family:var(--sans);font-size:16px;line-height:1.4;padding-bottom:calc(150px + var(--sab));overscroll-behavior-y:none;-webkit-font-smoothing:antialiased}
+html.travado,html.travado body{overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+[data-act]{cursor:pointer}
+svg{display:block;flex:none}
+input,select,textarea{font:inherit;font-size:16px;color:var(--tinta);background:transparent;border:0;border-radius:0;outline:none;width:100%;margin:0;-webkit-appearance:none;appearance:none}
+input::placeholder,textarea::placeholder{color:var(--tinta-3)}
+:focus-visible{outline:2px solid var(--s-servico);outline-offset:2px}
+input:focus-visible,textarea:focus-visible,select:focus-visible{outline:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* Faixa vermelha inclinada (topo da tela e topo da OS) */
+.faixa{position:relative}
+.faixa::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:30px;pointer-events:none;background:linear-gradient(to bottom right,transparent calc(50% - 4px),var(--vermelho) calc(50% - 4px),var(--vermelho) calc(50% + 5px),var(--fundo) calc(50% + 5px))}
+
+/* ---------- Topo ---------- */
+.sb{position:fixed;top:0;left:0;right:0;height:var(--sat);background:var(--topo);z-index:90}
+.topo{background:var(--topo);color:#fff;padding:calc(var(--sat) + 18px) 20px 46px}
+.topo-in{max-width:720px;margin:0 auto}
+.topo h1{margin:0;font:italic 700 48px/.95 var(--cond);letter-spacing:.005em;overflow-wrap:anywhere}
+.logo-topo{display:block;height:92px;width:auto;max-width:82%;object-fit:contain;object-position:left center;margin:0 0 2px -4px}
+.topo p{margin:10px 0 0;font-size:15.5px;line-height:1.4;color:var(--sobre-topo);max-width:34em}
+.topo p b{color:#fff;font-weight:600}
+.topo .topo-mes{margin-top:4px;font-size:13.5px;color:#8e8e98}
+
+main{max-width:720px;margin:0 auto;padding:0 16px 24px}
+
+/* ---------- Busca e filtros (fixos ao rolar) ---------- */
+.barra{position:sticky;top:var(--sat);z-index:15;background:var(--fundo);margin:0 -16px;padding:12px 16px 0;box-shadow:0 1px 0 var(--pauta-forte)}
+.barra.so{padding-bottom:12px}
+.busca{display:block;height:46px;padding:0 14px 0 42px;border-radius:12px;background:var(--papel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c5c66' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 14px center/18px;box-shadow:inset 0 0 0 1px var(--pauta)}
+.busca:focus{box-shadow:inset 0 0 0 1.5px var(--tinta)}
+.filtros{display:flex;gap:22px;overflow-x:auto;scrollbar-width:none;margin-top:4px;-webkit-overflow-scrolling:touch}
+.filtros::-webkit-scrollbar{display:none}
+.filtros button{flex:none;appearance:none;background:none;border:0;border-bottom:3px solid transparent;padding:10px 0 8px;font-size:15px;font-weight:600;color:var(--tinta-2);white-space:nowrap}
+.filtros button.on{color:var(--tinta);border-bottom-color:var(--vermelho)}
+.filtros i{font-style:normal;font-weight:500;color:var(--tinta-3);margin-left:5px;font-variant-numeric:tabular-nums}
+
+/* ---------- Títulos e textos ---------- */
+.sec{display:flex;align-items:baseline;gap:8px;margin:26px 2px 9px;font:700 23px/1.1 var(--cond);letter-spacing:.005em;color:var(--tinta)}
+.sec small{font:500 15px/1 var(--sans);color:var(--tinta-3);font-variant-numeric:tabular-nums}
+.sec .dir{margin-left:auto}
+.grupo::before{content:"";width:6px;height:18px;border-radius:2px;background:var(--c);align-self:center;flex:none;transform:skewX(-14deg)}
+.nota{margin:8px 2px 0;font-size:13.5px;line-height:1.45;color:var(--tinta-2)}
+.nota.alerta{color:var(--s-peca);font-weight:600}
+.vazio{padding:48px 20px;text-align:center;color:var(--tinta-2);font-size:15.5px;line-height:1.5}
+.vazio b{color:var(--tinta)}
+.center{text-align:center}
+.mt{margin-top:10px}
+.mt2{margin-top:18px}
+
+/* ---------- Folhas ---------- */
+.folha{background:var(--papel);border-radius:14px;box-shadow:0 0 0 1px var(--pauta),0 1px 3px rgba(0,0,0,.04);overflow:hidden}
+.folha>*+*{border-top:1px solid var(--pauta)}
+.row{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:11px 14px;background:none;border:0;text-align:left;color:var(--tinta);font-size:16px}
+.toque:active,.os:active,.add:active{background:var(--papel-2)}
+.row-txt{flex:1;min-width:0;display:block}
+.row-txt b{display:block;font-weight:600;line-height:1.25}
+.row-txt small{display:block;font-size:13.5px;color:var(--tinta-2);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row-txt small.duas{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.row .chev{width:16px;height:16px;color:var(--tinta-3)}
+.row.acao{font-weight:500}
+.row.perigo{color:var(--perigo);font-weight:500}
+.row.info{min-height:0;padding:9px 14px;font-size:13.5px;color:var(--tinta-2)}
+.row-dir{text-align:right;flex:none}
+.row-dir b{display:block;font-weight:600;font-variant-numeric:tabular-nums}
+.row-dir small{display:block;font-size:13px;color:var(--tinta-2)}
+.ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex:none;background:color-mix(in srgb,var(--vermelho) 11%,transparent);color:var(--vermelho)}
+.ic svg{width:19px;height:19px}
+.avisos{margin-top:14px}
+.add{display:flex;align-items:center;gap:10px;width:100%;padding:14px;background:none;border:0;font-size:15.5px;font-weight:600;color:var(--tinta);text-align:left}
+.add svg{width:20px;height:20px;padding:3px;box-sizing:content-box;border-radius:50%;background:var(--preench);color:var(--vermelho)}
+
+/* ---------- Campos de formulário ---------- */
+.campo{display:block;padding:10px 14px 8px;position:relative}
+.campo>span{display:block;font-size:13px;color:var(--tinta-2);margin-bottom:2px}
+.campo input,.campo select,.campo textarea{padding:2px 0 4px;min-height:30px;font-size:17px;line-height:1.35}
+.campo textarea{resize:none;min-height:50px;display:block}
+.campo select{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c5c66' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right center/16px;padding-right:24px}
+.campo:focus-within{background:var(--papel-2)}
+.campo:focus-within>span{color:var(--tinta)}
+.campo:focus-within::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:2px;background:var(--vermelho)}
+.par{display:grid;grid-template-columns:1fr 1fr}
+.par>.campo+.campo{border-left:1px solid var(--pauta)}
+input[type=date]{display:block;min-height:30px}
+input[type=date]::-webkit-date-and-time-value{text-align:left}
+input.up{text-transform:uppercase;letter-spacing:.04em}
+.oculto{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+/* ---------- Botões ---------- */
+.btn{appearance:none;border:0;border-radius:12px;min-height:50px;padding:12px 16px;font-size:16px;font-weight:600;line-height:1.2;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-align:center;background:var(--papel);color:var(--tinta);box-shadow:inset 0 0 0 1px var(--pauta-forte)}
+.btn svg{width:18px;height:18px}
+.btn:active{transform:translateY(1px);filter:brightness(.92)}
+.btn.primario{background:var(--vermelho);color:#fff;box-shadow:none}
+.btn.tinta{background:var(--tinta);color:var(--papel);box-shadow:none}
+.btn.wpp{background:var(--wpp);color:#fff;box-shadow:none}
+.btn.wpp-l{color:var(--wpp);box-shadow:inset 0 0 0 1.5px var(--wpp)}
+.btn.perigo{background:none;box-shadow:none;color:var(--perigo);font-weight:500}
+.btn.sm{min-height:40px;padding:8px 12px;font-size:14.5px;border-radius:10px}
+.btn.full{width:100%}
+.link{appearance:none;background:none;border:0;padding:6px 0;font-size:15px;font-weight:600;color:var(--tinta);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px;text-decoration-color:var(--vermelho);flex:none}
+
+.fab{position:fixed;right:16px;bottom:calc(64px + var(--sab) + 14px);z-index:31;display:flex;align-items:center;gap:8px;height:54px;padding:0 22px 0 18px;border:0;border-radius:16px;background:var(--vermelho);color:#fff;font-size:16px;font-weight:700;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.fab svg{width:22px;height:22px}
+.fab:active{transform:translateY(1px)}
+
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--papel) 92%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);box-shadow:0 -1px 0 var(--pauta);padding-bottom:var(--sab)}
+.tab{position:relative;appearance:none;border:0;background:none;padding:8px 0 6px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--tinta-3)}
+.tab svg{width:25px;height:25px}
+.tab.on{color:var(--tinta)}
+.tab.on svg{color:var(--vermelho)}
+.tab.on::before{content:"";position:absolute;top:0;left:50%;width:30px;height:3px;margin-left:-15px;border-radius:0 0 3px 3px;background:var(--vermelho)}
+.tab-badge{position:absolute;top:3px;left:calc(50% + 7px);min-width:17px;height:17px;padding:0 5px;border-radius:9px;background:var(--vermelho);color:#fff;font:700 11px/17px var(--sans);font-style:normal}
+html.digitando .tabbar,html.digitando .fab{display:none}
+
+/* ---------- Placa Mercosul ---------- */
+.placa{display:inline-flex;flex-direction:column;background:#fff;border:1.5px solid #1a1a1a;border-radius:4px;overflow:hidden;flex:none;line-height:1;vertical-align:middle}
+.placa i{display:block;height:6px;background:#2243b6}
+.placa b{display:block;padding:3px 8px 2px;font:700 19px/1 var(--cond);letter-spacing:.07em;color:#141414;text-align:center;white-space:nowrap}
+.placa.lg{border-width:2px;border-radius:5px}
+.placa.lg i{height:9px}
+.placa.lg b{font-size:31px;padding:4px 12px 3px}
+.placa.sm{border-width:1px;border-radius:3px}
+.placa.sm i{height:3.5px}
+.placa.sm b{font-size:13px;padding:2px 5px 1px}
+
+/* ---------- Situações ---------- */
+.st-fila{--c:var(--s-fila)} .st-aprovacao{--c:var(--s-aprovacao)} .st-servico{--c:var(--s-servico)} .st-peca{--c:var(--s-peca)}
+.st-pronta{--c:var(--s-pronta)} .st-entregue{--c:var(--s-entregue)} .st-cancelada{--c:var(--s-cancelada)}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:var(--tinta);white-space:nowrap}
+.st::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+.st.so{gap:0}
+.st.so::before{width:11px;height:11px}
+
+/* ---------- Moto na lista ---------- */
+.os{display:block;width:100%;padding:13px 14px 12px 18px;text-align:left;box-shadow:inset 4px 0 0 var(--c)}
+.os-a{display:flex;align-items:flex-start;gap:12px}
+.os-a .placa{margin-top:2px}
+.os-id{flex:1;min-width:0}
+.os-id b{display:block;font:700 21px/1.1 var(--cond);overflow-wrap:anywhere}
+.os-id small{display:block;font-size:14px;color:var(--tinta-2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.os-n{flex:none;text-align:right}
+.os-n b{display:block;font:italic 700 20px/1 var(--cond);color:var(--numero);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.os-n small{display:block;font-size:12.5px;color:var(--tinta-2);margin-top:5px;white-space:nowrap}
+.os-prob{margin:9px 0 0;font-size:14.5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.marcas{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.marca{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--preench);color:var(--tinta)}
+.marca.fila{background:var(--tinta);color:var(--papel);font:italic 700 15px/1 var(--cond);padding:5px 10px 4px;letter-spacing:.02em}
+.marca.atraso{background:color-mix(in srgb,var(--perigo) 12%,transparent);color:var(--perigo)}
+.os-b{display:flex;align-items:center;gap:10px;margin-top:11px}
+.prog{width:56px;height:5px;border-radius:3px;background:var(--pauta);overflow:hidden;flex:none}
+.prog i{display:block;height:100%;background:var(--s-pronta)}
+.feitos{font-size:13px;color:var(--tinta-2)}
+.os-b .total{margin-left:auto;font:700 21px/1 var(--cond);font-variant-numeric:tabular-nums}
+.os-c{display:flex;gap:8px;margin-top:11px}
+.os-c .btn{flex:1}
+
+/* ---------- Folhas que sobem (modais) ---------- */
+.sheet-wrap{position:fixed;inset:0;z-index:100}
+.backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:opacity .25s}
+.sheet{position:absolute;left:0;right:0;bottom:0;top:calc(var(--sat) + 8px);max-width:720px;margin:0 auto;background:var(--fundo);border-radius:18px 18px 0 0;display:flex;flex-direction:column;overflow:hidden;transform:translateY(102%);transition:transform .32s cubic-bezier(.22,.9,.3,1)}
+.aberto .backdrop{opacity:1}
+.aberto .sheet{transform:none}
+.mini .sheet{top:auto;max-height:86%}
+.grab{width:38px;height:5px;border-radius:3px;background:var(--pauta-forte);margin:7px auto 0;flex:none}
+.sheet-head{display:flex;align-items:center;gap:12px;padding:6px 12px 8px 16px;flex:none}
+.sheet-head h2{flex:1;margin:0;font:italic 700 29px/1.1 var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fx{width:34px;height:34px;border-radius:50%;border:0;background:var(--preench);color:var(--tinta-2);display:grid;place-items:center;padding:0;flex:none}
+.fx svg{width:16px;height:16px}
+.sheet-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:4px 16px calc(28px + var(--sab))}
+.mini .sheet-body{flex:none}
+.sheet-body>.sec:first-child{margin-top:8px}
+
+/* ---------- Ordem de serviço ---------- */
+.via{background:var(--topo);color:#fff;margin:-4px -16px 0;padding:16px 16px 42px}
+.via-a{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.via-n{text-align:right}
+.via-n b{display:block;font:italic 700 36px/1 var(--cond);color:var(--vermelho-vivo);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.via-moto{margin-top:14px}
+.via-moto b{display:block;font:700 28px/1.05 var(--cond)}
+.via-moto small{display:block;font-size:14.5px;color:#b4b4bd;margin-top:2px}
+.via .row{padding:12px 0;margin-top:12px;border-top:1px solid rgba(255,255,255,.14);color:#fff}
+.via .row small{color:#b4b4bd}
+.via .row .chev{color:#77777f}
+.via .toque:active{background:rgba(255,255,255,.05)}
+.via .av{background:rgba(255,255,255,.12);color:#fff}
+.sit{display:flex;align-items:center;gap:12px;padding:13px 14px}
+.sit-txt{flex:1;min-width:0}
+.sit-txt b{display:flex;align-items:center;gap:9px;font:700 24px/1.15 var(--cond)}
+.sit-txt b::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--c);flex:none}
+.sit-txt small{display:block;font-size:13px;color:var(--tinta-2);margin-top:1px}
+.pad{padding:12px 14px}
+.dupla{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px}
+.svc{display:grid;grid-template-columns:28px 1fr 96px 28px;gap:8px;align-items:center;padding:7px 6px 7px 14px;min-height:54px}
+.svc.rap{grid-template-columns:1fr 96px 28px}
+.chk{width:26px;height:26px;border-radius:7px;border:1.8px solid var(--pauta-forte);background:none;color:transparent;display:grid;place-items:center;padding:0}
+.chk svg{width:16px;height:16px}
+.svc.feito .chk{background:var(--s-pronta);border-color:var(--s-pronta);color:#fff}
+.svc.feito .desc{color:var(--tinta-3);text-decoration:line-through}
+.svc input{padding:8px 0;min-height:38px}
+.vw{display:flex;align-items:center;gap:4px;font-size:14px;color:var(--tinta-3)}
+.vw input{font-variant-numeric:tabular-nums;color:var(--tinta)}
+.svc input:focus,.pc input:focus{box-shadow:0 2px 0 var(--vermelho)}
+.x{appearance:none;border:0;background:none;width:28px;height:34px;padding:0;color:var(--tinta-3);display:grid;place-items:center}
+.x svg{width:17px;height:17px}
+.atalhos{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:10px -16px 0;padding:0 16px 2px}
+.atalhos::-webkit-scrollbar{display:none}
+.atalho{flex:none;appearance:none;border:0;border-radius:999px;background:var(--papel);box-shadow:inset 0 0 0 1px var(--pauta-forte);padding:8px 13px;font-size:14px;font-weight:500;color:var(--tinta);white-space:nowrap}
+.atalho span{color:var(--vermelho);font-weight:700;margin-right:3px}
+.atalho:active{background:var(--tinta);color:var(--papel)}
+.pc{padding:10px 6px 12px 14px}
+.pc-a{display:grid;grid-template-columns:1fr 28px;gap:8px;align-items:center}
+.pc-a input{padding:5px 0;min-height:34px;font-weight:500}
+.pc-info{font-size:12.5px;color:var(--tinta-2);margin:1px 0 9px}
+.pc-b{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding-right:8px}
+.preco{display:flex;align-items:center;gap:5px;font-size:14px;color:var(--tinta-3);white-space:nowrap}
+.preco input{min-height:34px;padding:5px 0;font-variant-numeric:tabular-nums;color:var(--tinta)}
+.pc-tot{min-width:78px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.qtd{display:inline-flex;align-items:center;border-radius:10px;box-shadow:inset 0 0 0 1px var(--pauta-forte);flex:none}
+.qtd button{appearance:none;border:0;background:none;width:36px;height:36px;padding:0;font-size:20px;line-height:1;color:var(--tinta)}
+.qtd span{min-width:22px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.qtd.g button{width:42px;height:42px}
+.qtd.g span{min-width:34px;font:700 23px/1 var(--cond)}
+.qtd .alerta{color:var(--s-peca)}
+.neg{color:var(--perigo)!important}
+.ticket{padding:12px 14px 14px}
+.tk{display:flex;justify-content:space-between;padding:3px 0;font-size:15px;color:var(--tinta-2);font-variant-numeric:tabular-nums}
+.tk-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;padding-top:11px;border-top:1.5px dashed var(--pauta-forte)}
+.tk-total span{font:italic 700 22px/1 var(--cond)}
+.tk-total b{font:700 40px/1 var(--cond);font-variant-numeric:tabular-nums}
+
+/* ---------- Clientes ---------- */
+.av{width:40px;height:40px;border-radius:50%;background:var(--preench);color:var(--tinta);display:grid;place-items:center;flex:none;font:700 17px/1 var(--cond);letter-spacing:.03em}
+.av.lg{width:62px;height:62px;font-size:25px;background:var(--tinta);color:var(--papel)}
+.letra{margin:22px 2px 7px;font:italic 700 22px/1 var(--cond);color:var(--vermelho)}
+.placas{display:flex;align-items:center;gap:4px;flex:none}
+.placas i{font-style:normal;font-size:12.5px;color:var(--tinta-2)}
+.cli-cab{display:flex;align-items:center;gap:14px;padding:6px 0 2px}
+.cli-cab h3{margin:0;font:italic 700 30px/1.05 var(--cond)}
+.cli-cab small{display:block;font-size:14px;color:var(--tinta-2);margin-top:3px}
+.valor{font-weight:600;font-size:15px;font-variant-numeric:tabular-nums;flex:none}
+
+/* ---------- Estoque ---------- */
+.resumo{margin:16px 2px 10px;font-size:14.5px;color:var(--tinta-2)}
+.resumo b{color:var(--tinta);font-weight:600}
+.est .row-txt{appearance:none;background:none;border:0;padding:0;text-align:left;color:inherit;font:inherit}
+.row-txt small.repor{color:var(--s-peca);font-weight:600}
+
+/* ---------- Documento, mensagens e passos ---------- */
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--preench);border-radius:11px;padding:3px;gap:3px}
+.seg button{appearance:none;border:0;background:none;border-radius:9px;padding:9px;font-weight:600;font-size:15px;color:var(--tinta-2)}
+.seg button.on{background:var(--papel);color:var(--tinta);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.prev{margin:14px 0;border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 0 0 1px var(--pauta),0 10px 30px rgba(0,0,0,.12)}
+.prev img{display:block;width:100%;min-height:260px}
+.pergunta{margin:2px 2px 12px;font-size:16px;line-height:1.45}
+.bolha{background:var(--bolha);color:var(--bolha-txt);border-radius:4px 14px 14px 14px;padding:10px 12px;font-size:15px;line-height:1.42;white-space:pre-wrap;max-height:230px;overflow:auto;margin-bottom:12px}
+.passos{list-style:none;margin:0;padding:0;counter-reset:p;background:var(--papel);border-radius:14px;box-shadow:0 0 0 1px var(--pauta)}
+.passos li{counter-increment:p;display:grid;grid-template-columns:30px 1fr;column-gap:12px;padding:12px 14px}
+.passos li+li{border-top:1px solid var(--pauta)}
+.passos li::before{content:counter(p);grid-row:span 2;width:28px;height:28px;border-radius:50%;background:var(--vermelho);color:#fff;display:grid;place-items:center;font:italic 700 17px/1 var(--cond)}
+.passos b{display:block;font-weight:600}
+.passos small{display:block;font-size:13.5px;color:var(--tinta-2);margin-top:2px}
+
+#toast{position:fixed;left:16px;right:16px;bottom:calc(76px + var(--sab));max-width:440px;margin:0 auto;z-index:300;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:12px;background:#161616;color:#fff;border:1px solid rgba(255,255,255,.08);font-size:14.5px;font-weight:500;box-shadow:0 10px 30px rgba(0,0,0,.3);opacity:0;transform:translateY(10px);transition:opacity .2s,transform .2s;pointer-events:none}
+#toast.on{opacity:1;transform:none}
+#toast.on.com-acao{pointer-events:auto}
+#toast button{appearance:none;background:none;border:0;padding:2px 0;color:#ff5a52;font-weight:700;font-size:14.5px;flex:none}
+html.travado #toast{top:calc(var(--sat) + 14px);bottom:auto;transform:translateY(-10px)}
+html.travado #toast.on{transform:none}
+</style>
+</head>
+<body>
+<div class="sb"></div>
+<header class="topo faixa"><div class="topo-in" id="topo"></div></header>
+<main id="view"></main>
+<button class="fab" id="fab" data-act="fab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span id="fabTxt">Nova entrada</span></button>
+<nav class="tabbar">
+  <button class="tab" data-act="aba" data-v="oficina"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg><span>Oficina</span></button>
+  <button class="tab" data-act="aba" data-v="clientes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Clientes</span></button>
+  <button class="tab" data-act="aba" data-v="estoque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg><span>Estoque</span><em class="tab-badge" id="badgeEst" hidden></em></button>
+  <button class="tab" data-act="aba" data-v="ajustes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M2 14h4M10 8h4M18 16h4"/></svg><span>Ajustes</span></button>
+</nav>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+'use strict';
+
+/* =========================================================
+   CONFIGURAÇÃO E DADOS
+   ========================================================= */
+const CHAVE = 'oficina_dados_v1';
+const DIA = 864e5;
+
+const STATUS = {
+  fila:      { label: 'Na fila',              dica: 'Esperando a vez' },
+  aprovacao: { label: 'Aguardando aprovação', dica: 'Orçamento enviado, esperando o cliente' },
+  servico:   { label: 'Em serviço',           dica: 'Na mão do mecânico' },
+  peca:      { label: 'Aguardando peça',      dica: 'Parada até a peça chegar' },
+  pronta:    { label: 'Pronta',               dica: 'Esperando o cliente buscar' },
+  entregue:  { label: 'Entregue',             dica: 'O cliente já levou' },
+  cancelada: { label: 'Cancelada',            dica: 'O cliente desistiu do serviço' }
+};
+const ORDEM_STATUS = ['fila', 'aprovacao', 'servico', 'peca', 'pronta', 'entregue', 'cancelada'];
+const GRUPOS_ATIVOS = ['servico', 'peca', 'aprovacao', 'fila', 'pronta'];
+const FINALIZADOS = ['entregue', 'cancelada'];
+const CONSOME_ESTOQUE = ['servico', 'peca', 'pronta', 'entregue'];
+const PROXIMO = { fila: 'servico', aprovacao: 'servico', servico: 'pronta', peca: 'servico', pronta: 'entregue' };
+const ACAO_LABEL = { fila: 'Começar serviço', aprovacao: 'Aprovado, começar', servico: 'Marcar como pronta', peca: 'A peça chegou', pronta: 'Marcar como entregue' };
+const ACAO_CURTA = { fila: 'Começar', aprovacao: 'Aprovado', servico: 'Pronta', peca: 'Peça chegou', pronta: 'Entregue' };
+const MSG_CTX = { fila: 'recebida', aprovacao: 'orcamento', servico: 'orcamento', peca: 'orcamento', pronta: 'pronta', entregue: 'pronta' };
+const MSG_ROTULO = { recebida: 'Avisar que recebeu', orcamento: 'Mandar orçamento', pronta: 'Avisar que está pronta', livre: 'Conversar' };
+
+const MSG_PADRAO = {
+  msgRecebida: 'Olá, {cliente}! Aqui é da {oficina}. 👋\nRecebemos sua {moto} (placa {placa}). Assim que o orçamento estiver pronto, mandamos por aqui.',
+  msgOrcamento: 'Olá, {cliente}! Segue o orçamento da sua {moto} (placa {placa}):\n\n{itens}\n\n*Total: {total}*\nOrçamento válido por {validade} dias.\n\nPodemos seguir com o serviço?',
+  msgPronta: 'Olá, {cliente}! ✅ Sua {moto} (placa {placa}) já está pronta para retirada aqui na {oficina}.\n\n{servicos}\n\n*Total: {total}*\n\nQualquer dúvida, é só chamar!'
+};
+
+function dbPadrao() {
+  return {
+    versao: 1,
+    seq: 1,
+    config: Object.assign({
+      oficina: 'Junior Motos', telefone: '', endereco: '', documento: '', ddd: '',
+      validade: 7, rodape: 'Garantia de 90 dias para os serviços realizados.',
+      wppModo: 'link', ultimoBackup: null,
+      servicosRapidos: ['Troca de óleo', 'Revisão geral', 'Regulagem de freio', 'Troca de relação', 'Limpeza de carburador', 'Troca de pneu', 'Parte elétrica'].map(d => ({ d, v: 0 }))
+    }, MSG_PADRAO),
+    clientes: [], motos: [], os: [], estoque: []
+  };
+}
+
+let db;
+
+function normalizar() {
+  if (!db || typeof db !== 'object') throw new Error('dados inválidos');
+  const p = dbPadrao();
+  db.config = Object.assign({}, p.config, db.config || {});
+  if (!db.config.oficina || db.config.oficina === 'Minha Oficina') db.config.oficina = p.config.oficina;
+  if (!Array.isArray(db.config.servicosRapidos)) db.config.servicosRapidos = p.config.servicosRapidos;
+  ['clientes', 'motos', 'os', 'estoque'].forEach(k => { if (!Array.isArray(db[k])) db[k] = []; });
+  db.os.forEach(o => {
+    o.servicos = Array.isArray(o.servicos) ? o.servicos : [];
+    o.pecas = Array.isArray(o.pecas) ? o.pecas : [];
+    o.baixas = o.baixas && typeof o.baixas === 'object' ? o.baixas : {};
+    o.historico = Array.isArray(o.historico) ? o.historico : [];
+    if (!STATUS[o.status]) o.status = 'fila';
+    if (!o.entrada) o.entrada = Date.now();
+  });
+  const maior = db.os.reduce((m, o) => Math.max(m, o.numero || 0), 0);
+  if (!db.seq || db.seq <= maior) db.seq = maior + 1;
+}
+
+/* ---------- Armazenamento ----------
+   Os dados ficam no IndexedDB, que no iPhone tem espaço para muitos anos de histórico.
+   Na primeira abertura desta versão, o que estava no localStorage é trazido para cá sozinho.
+   Se o IndexedDB não abrir de jeito nenhum, o app continua usando o localStorage (limite de uns 5 MB). */
+const IDB_NOME = 'junior-motos', IDB_LOJA = 'dados', IDB_CHAVE = 'db';
+const CHAVE_ANTIGA = CHAVE + '_antes_da_troca';
+let idb = null;
+
+function abrirIDB() {
+  return new Promise((ok, falha) => {
+    if (!window.indexedDB) { falha(new Error('sem IndexedDB')); return; }
+    let req;
+    try { req = indexedDB.open(IDB_NOME, 1); } catch (e) { falha(e); return; }
+    req.onupgradeneeded = () => { if (!req.result.objectStoreNames.contains(IDB_LOJA)) req.result.createObjectStore(IDB_LOJA); };
+    req.onsuccess = () => { const con = req.result; con.onversionchange = () => con.close(); ok(con); };
+    req.onerror = () => falha(req.error);
+    req.onblocked = () => falha(new Error('IndexedDB bloqueado'));
+  });
+}
+
+function idbLer(chave = IDB_CHAVE) {
+  return new Promise((ok, falha) => {
+    let tx;
+    try { tx = idb.transaction(IDB_LOJA, 'readonly'); } catch (e) { falha(e); return; }
+    const req = tx.objectStore(IDB_LOJA).get(chave);
+    req.onsuccess = () => ok(req.result);
+    req.onerror = () => falha(req.error);
+  });
+}
+
+function idbGravar(valor, chave = IDB_CHAVE) {
+  return new Promise((ok, falha) => {
+    let tx;
+    try {
+      tx = idb.transaction(IDB_LOJA, 'readwrite');
+      tx.objectStore(IDB_LOJA).put(valor, chave); /* a cópia dos dados é feita aqui, na hora */
+    } catch (e) { falha(e); return; }
+    tx.oncomplete = () => ok();
+    tx.onerror = () => falha(tx.error);
+    tx.onabort = () => falha(tx.error || new Error('gravação cancelada'));
+  });
+}
+
+const cheio = e => !!e && (e.name === 'QuotaExceededError' || /quota/i.test(e.message || ''));
+
+/* O iPhone às vezes derruba a conexão com o banco quando o app fica muito tempo em segundo plano.
+   Nesse caso, reabre a conexão e tenta de novo uma vez. */
+async function idbGravarSeguro(valor, chave) {
+  try { return await idbGravar(valor, chave); }
+  catch (e) {
+    if (cheio(e)) throw e;
+    try { idb.close(); } catch (_) { /* já estava fechada */ }
+    idb = await abrirIDB();
+    return idbGravar(valor, chave);
+  }
+}
+async function idbLerSeguro(chave) {
+  try { return await idbLer(chave); }
+  catch (e) {
+    try { idb.close(); } catch (_) { /* já estava fechada */ }
+    idb = await abrirIDB();
+    return idbLer(chave);
+  }
+}
+
+function lerLS(chave) { try { return localStorage.getItem(chave); } catch (e) { return null; } }
+
+async function carregar() {
+  try { idb = await abrirIDB(); } catch (e) { idb = null; }
+  let dados = null, migrar = false, bruto = null;
+
+  if (idb) {
+    try { dados = await idbLerSeguro(IDB_CHAVE); }
+    catch (e) { try { idb.close(); } catch (_) { /* ignora */ } idb = null; }
+  }
+  if (dados == null) {
+    bruto = lerLS(CHAVE);
+    if (bruto) {
+      try { dados = JSON.parse(bruto); } catch (e) { dados = undefined; }
+      migrar = !!idb;
+    }
+  }
+  if (dados == null && bruto == null) { db = dbPadrao(); return; }
+
+  try {
+    db = dados;
+    normalizar();
+  } catch (e) {
+    const marca = Date.now();
+    try { if (idb && dados != null) await idbGravarSeguro(dados, 'corrompido-' + marca); } catch (_) { /* ignora */ }
+    try { if (bruto) { localStorage.setItem(CHAVE + '_corrompido_' + marca, bruto); localStorage.removeItem(CHAVE); } } catch (_) { /* ignora */ }
+    db = dbPadrao();
+    setTimeout(() => alert('Os dados salvos estavam com problema e uma cópia foi guardada. Se tiver um backup, importe em Ajustes.'), 400);
+    return;
+  }
+
+  if (migrar) {
+    try {
+      await idbGravarSeguro(db);
+      try { localStorage.setItem(CHAVE_ANTIGA, bruto); localStorage.removeItem(CHAVE); } catch (_) { /* a cópia antiga é só por segurança */ }
+    } catch (e) {
+      try { idb.close(); } catch (_) { /* ignora */ }
+      idb = null; /* não deu para passar para o IndexedDB: segue no localStorage */
+    }
+  }
+}
+
+let tSalvar = null, gravando = false, deNovo = false, avisouErro = false;
+
+function avisarErro(e) {
+  if (avisouErro) return;
+  avisouErro = true;
+  alert(cheio(e)
+    ? 'Não foi possível salvar: o armazenamento do iPhone está cheio. Libere espaço no aparelho e exporte um backup em Ajustes.'
+    : 'Não foi possível salvar a última alteração. Feche e abra o app de novo, e exporte um backup em Ajustes.');
+}
+
+function salvarLS() {
+  try { localStorage.setItem(CHAVE, JSON.stringify(db)); avisouErro = false; }
+  catch (e) { avisarErro({ name: 'QuotaExceededError' }); }
+}
+
+function salvar() {
+  clearTimeout(tSalvar); tSalvar = null;
+  if (!db) return;
+  if (!idb) { salvarLS(); return; }
+  /* Uma gravação por vez; se mudar algo durante a gravação, grava de novo no fim com o estado mais novo */
+  if (gravando) { deNovo = true; return; }
+  gravando = true;
+  idbGravarSeguro(db)
+    .then(() => { avisouErro = false; })
+    .catch(avisarErro)
+    .finally(() => { gravando = false; if (deNovo) { deNovo = false; salvar(); } });
+}
+function salvarDepois() { clearTimeout(tSalvar); tSalvar = setTimeout(salvar, 400); }
+function salvarPendente() { if (tSalvar) salvar(); }
+
+function tamanhoDados() {
+  const b = new Blob([JSON.stringify(db)]).size;
+  return b < 1024 * 1024 ? `${Math.max(1, Math.round(b / 1024))} KB` : `${(b / 1024 / 1024).toFixed(1).replace('.', ',')} MB`;
+}
+
+/* =========================================================
+   UTILITÁRIOS
+   ========================================================= */
+const $ = (s, r = document) => r.querySelector(s);
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+const dinheiro = v => BRL.format(+v || 0);
+const pad = n => String(n || 0).padStart(4, '0');
+function num(v) {
+  if (typeof v === 'number') return isFinite(v) ? v : 0;
+  let s = String(v || '').replace(/[^\d,.-]/g, '');
+  if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.');
+  const n = parseFloat(s);
+  return isNaN(n) ? 0 : n;
+}
+const numCampo = v => (+v ? String(Math.round(+v * 100) / 100).replace('.', ',') : '');
+const fmtQtd = v => { const n = +v || 0; return Number.isInteger(n) ? String(n) : String(Math.round(n * 100) / 100).replace('.', ','); };
+const semAcento = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const compacto = s => semAcento(s).replace(/[^a-z0-9]/g, '');
+function bate(texto, q) {
+  q = String(q || '').trim();
+  if (!q) return true;
+  if (semAcento(texto).includes(semAcento(q))) return true;
+  const cq = compacto(q);
+  return cq.length > 0 && compacto(texto).includes(cq);
+}
+const dataBR = ts => ts ? new Date(ts).toLocaleDateString('pt-BR') : '—';
+const dataHora = ts => ts ? new Date(ts).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+const inicioDia = ts => { const d = new Date(ts); d.setHours(0, 0, 0, 0); return d.getTime(); };
+function haQuanto(ts) {
+  const d = Math.round((inicioDia(Date.now()) - inicioDia(ts)) / DIA);
+  return d <= 0 ? 'hoje' : d === 1 ? 'ontem' : `há ${d} dias`;
+}
+function quandoCurto(ts) {
+  const h = new Date(ts).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  const d = haQuanto(ts);
+  return d === 'hoje' ? `hoje, ${h}` : d === 'ontem' ? `ontem, ${h}` : `${dataBR(ts).slice(0, 5)}, ${h}`;
+}
+function dataISO(s) { if (!s) return null; const [a, m, d] = String(s).split('-').map(Number); return a ? new Date(a, (m || 1) - 1, d || 1).getTime() : null; }
+function hojeArquivo() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+const pl = (n, um, varios) => `${n} ${n === 1 ? um : varios}`;
+function juntar(partes) { return partes.length < 2 ? partes.join('') : partes.slice(0, -1).join(', ') + ' e ' + partes[partes.length - 1]; }
+const primeiroNome = n => String(n || '').trim().split(/\s+/)[0] || '';
+function iniciais(n) { const p = String(n || '?').trim().split(/\s+/).filter(Boolean); return ((p[0] || '?')[0] + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase(); }
+function fmtPlaca(s) { const c = String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); return /^[A-Z]{3}\d{4}$/.test(c) ? c.slice(0, 3) + '-' + c.slice(3) : c; }
+function fmtFone(t) {
+  let d = String(t || '').replace(/\D/g, '');
+  if (d.length === 13 && d.startsWith('55')) d = d.slice(2);
+  if (d.length === 11) return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+  if (d.length === 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  if (d.length === 9) return `${d.slice(0, 5)}-${d.slice(5)}`;
+  return String(t || '');
+}
+const placaHTML = (p, cls = '') => `<span class="placa ${cls}"><i></i><b>${esc(p || 'S/ PLACA')}</b></span>`;
+const vazio = html => `<div class="vazio">${html}</div>`;
+const cIn = (rot, attrs, val = '') => `<label class="campo"><span>${rot}</span><input ${attrs} value="${esc(val)}"></label>`;
+const cTx = (rot, attrs, val = '') => `<label class="campo"><span>${rot}</span><textarea ${attrs}>${esc(val)}</textarea></label>`;
+
+const IOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const STANDALONE = navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+
+const svg = (p, w = 2, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const ICO = {
+  check: svg('<path d="M20 6 9 17l-5-5"/>', 3),
+  ok: svg('<path d="M20 6 9 17l-5-5"/>', 2.4),
+  msg: svg('<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>'),
+  doc: svg('<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M9 13h6M9 17h6"/>'),
+  chev: svg('<path d="m9 18 6-6-6-6"/>', 2.2, 'chev'),
+  x: svg('<path d="M18 6 6 18M6 6l12 12"/>', 2.2),
+  mais: svg('<path d="M12 5v14M5 12h14"/>', 2.4),
+  celular: svg('<rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/>'),
+  salvar: svg('<path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/>'),
+  caixa: svg('<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>'),
+  compartilhar: svg('<path d="M12 3v13"/><path d="m7 8 5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>'),
+  importar: svg('<path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/>')
+};
+
+/* =========================================================
+   CONSULTAS E REGRAS
+   ========================================================= */
+/* Busca por id com índice guardado: com anos de histórico, procurar item por item ficaria lento.
+   O índice é refeito sozinho quando a lista muda de tamanho ou é trocada por outra. */
+const indices = new WeakMap();
+function indice(lista) {
+  let c = indices.get(lista);
+  if (!c || c.n !== lista.length) { c = { n: lista.length, m: new Map(lista.map(x => [x.id, x])) }; indices.set(lista, c); }
+  return c.m;
+}
+const cliente = id => indice(db.clientes).get(id);
+const moto = id => indice(db.motos).get(id);
+const peca = id => indice(db.estoque).get(id);
+const ordem = id => indice(db.os).get(id);
+function motosPorCliente() {
+  const mapa = new Map();
+  db.motos.forEach(m => { const l = mapa.get(m.clienteId); if (l) l.push(m); else mapa.set(m.clienteId, [m]); });
+  return mapa;
+}
+const estBaixo = p => (+p.qtd || 0) < 0 || (+p.minimo > 0 && (+p.qtd || 0) <= +p.minimo);
+
+function totais(o) {
+  const servicos = o.servicos.reduce((a, s) => a + (+s.valor || 0), 0);
+  const pecas = o.pecas.reduce((a, l) => a + (+l.qtd || 0) * (+l.preco || 0), 0);
+  const desconto = +o.desconto || 0;
+  return { servicos, pecas, desconto, total: Math.max(0, servicos + pecas - desconto) };
+}
+
+/* Peças só saem do estoque quando a moto entra em serviço,
+   e voltam se a OS for cancelada, voltar para a fila ou for excluída. */
+function sincronizarEstoque(o, remover = false) {
+  const desejado = {};
+  if (!remover && CONSOME_ESTOQUE.includes(o.status)) {
+    o.pecas.forEach(l => { if (l.pecaId && peca(l.pecaId)) desejado[l.pecaId] = (desejado[l.pecaId] || 0) + (+l.qtd || 0); });
+  }
+  const atual = o.baixas || {};
+  const negativos = [];
+  new Set([...Object.keys(desejado), ...Object.keys(atual)]).forEach(id => {
+    const delta = (desejado[id] || 0) - (atual[id] || 0);
+    if (!delta) return;
+    const p = peca(id);
+    if (!p) return;
+    p.qtd = (+p.qtd || 0) - delta;
+    if (delta > 0 && p.qtd < 0) negativos.push(p.nome);
+  });
+  o.baixas = desejado;
+  return negativos;
+}
+
+function salvarOS(o) {
+  if (!db.os.includes(o)) return;
+  o.atualizadoEm = Date.now();
+  const neg = sincronizarEstoque(o);
+  salvar();
+  if (neg.length) toast(`Estoque negativo: ${neg.join(', ')}`);
+}
+
+function mudarStatus(o, s) {
+  if (o.status === s) return;
+  o.status = s;
+  o.historico.push({ s, t: Date.now() });
+  o.entregueEm = s === 'entregue' ? Date.now() : null;
+  salvarOS(o);
+}
+
+function removerOS(o) {
+  if (o.status !== 'entregue') sincronizarEstoque(o, true);
+  db.os = db.os.filter(x => x !== o);
+}
+
+function ultimaTrocaOleo(motoId, excetoId) {
+  const lista = db.os.filter(o => o.motoId === motoId && o.id !== excetoId && ['pronta', 'entregue'].includes(o.status) && o.servicos.some(s => semAcento(s.desc).includes('oleo')));
+  if (!lista.length) return null;
+  lista.sort((a, b) => (b.entregueEm || b.atualizadoEm || 0) - (a.entregueEm || a.atualizadoEm || 0));
+  return { data: lista[0].entregueEm || lista[0].atualizadoEm, km: lista[0].km };
+}
+
+/* =========================================================
+   WHATSAPP
+   ========================================================= */
+function foneWpp(f) {
+  let d = String(f || '').replace(/\D/g, '').replace(/^0+/, '');
+  if (!d) return '';
+  const ddd = String(db.config.ddd || '').replace(/\D/g, '');
+  if ((d.length === 8 || d.length === 9) && ddd) d = ddd + d;
+  if (d.length === 10 || d.length === 11) d = '55' + d;
+  return d;
+}
+
+function abrirWpp(fone, texto) {
+  const n = foneWpp(fone);
+  if (!n) { toast('Cadastre o WhatsApp do cliente'); return false; }
+  if (n.length < 12) { toast('O número está sem DDD. Corrija o cadastro ou informe o DDD padrão em Ajustes.'); return false; }
+  const t = encodeURIComponent(texto || '');
+  if (db.config.wppModo === 'app') {
+    location.href = `whatsapp://send?phone=${n}&text=${t}`;
+  } else {
+    const a = document.createElement('a');
+    a.href = `https://wa.me/${n}?text=${t}`;
+    a.target = '_blank'; a.rel = 'noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  return true;
+}
+
+function textoItens(o) {
+  const l = [];
+  if (o.servicos.length) { l.push('*Serviços*'); o.servicos.forEach(s => l.push(`• ${s.desc || 'Serviço'} — ${dinheiro(s.valor)}`)); }
+  if (o.pecas.length) { if (l.length) l.push(''); l.push('*Peças*'); o.pecas.forEach(p => l.push(`• ${fmtQtd(p.qtd)}x ${p.desc || 'Peça'} — ${dinheiro((+p.qtd || 0) * (+p.preco || 0))}`)); }
+  const t = totais(o);
+  if (t.desconto) { l.push(''); l.push(`Desconto: - ${dinheiro(t.desconto)}`); }
+  return l.join('\n') || '(sem itens lançados)';
+}
+
+function textoServicos(o) {
+  const feitos = o.servicos.filter(s => s.feito);
+  const lista = (feitos.length ? feitos : o.servicos).filter(s => s.desc);
+  return lista.length ? 'Serviços realizados:\n' + lista.map(s => `• ${s.desc}`).join('\n') : '';
+}
+
+function montarMsg(tipo, o) {
+  const cfg = db.config, c = cliente(o.clienteId) || {}, m = moto(o.motoId) || {};
+  const modelo = { recebida: cfg.msgRecebida, orcamento: cfg.msgOrcamento, pronta: cfg.msgPronta }[tipo] || 'Olá, {cliente}! Aqui é da {oficina}.';
+  const vars = {
+    cliente: primeiroNome(c.nome), nome: c.nome || '', moto: m.modelo || 'moto', placa: m.placa || '-',
+    oficina: cfg.oficina || '', total: dinheiro(totais(o).total), numero: pad(o.numero), validade: cfg.validade,
+    itens: textoItens(o), servicos: textoServicos(o)
+  };
+  return String(modelo).replace(/\{(\w+)\}/g, (tudo, k) => (k in vars ? vars[k] : tudo)).replace(/\n{3,}/g, '\n\n').trim();
+}
+const bolhaHTML = txt => esc(txt).replace(/\*(.+?)\*/g, '<b>$1</b>');
+
+/* =========================================================
+   AVISO RÁPIDO (TOAST)
+   ========================================================= */
+let tToast = null, toastFn = null;
+function toast(msg, acao) {
+  const t = $('#toast');
+  toastFn = acao ? acao.fn : null;
+  t.innerHTML = `<span>${esc(msg)}</span>` + (acao ? `<button data-act="toastAcao">${esc(acao.rotulo)}</button>` : '');
+  t.classList.toggle('com-acao', !!acao);
+  t.classList.add('on');
+  clearTimeout(tToast);
+  tToast = setTimeout(() => { t.classList.remove('on'); toastFn = null; }, acao ? 5000 : 2600);
+}
+
+/* =========================================================
+   FOLHAS QUE SOBEM (MODAIS)
+   ========================================================= */
+const pilha = [];
+function abrirSheet(html, { id = '', titulo = '', onClose = null, mini = false } = {}) {
+  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  const w = document.createElement('div');
+  w.className = 'sheet-wrap' + (mini ? ' mini' : '');
+  if (id) w.id = id;
+  w.innerHTML = `<div class="backdrop" data-act="fechar"></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(titulo)}">
+      <div class="grab"></div>
+      <header class="sheet-head"><h2>${esc(titulo)}</h2><button class="fx" data-act="fechar" aria-label="Fechar">${ICO.x}</button></header>
+      <div class="sheet-body">${html}</div>
+    </div>`;
+  document.body.appendChild(w);
+  pilha.push({ el: w, onClose });
+  document.documentElement.classList.add('travado');
+  void w.offsetWidth;
+  w.classList.add('aberto');
+  return w;
+}
+function fecharSheet() {
+  const topo = pilha.pop();
+  if (!topo) return;
+  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  topo.el.removeAttribute('id');
+  topo.el.classList.remove('aberto');
+  setTimeout(() => topo.el.remove(), 340);
+  if (!pilha.length) document.documentElement.classList.remove('travado');
+  if (topo.onClose) topo.onClose();
+}
+function fecharAte(id) { while (pilha.length && pilha[pilha.length - 1].el.id !== id) fecharSheet(); }
+function fecharTudo() { while (pilha.length) fecharSheet(); }
+const corpo = id => $(`#${id} .sheet-body`);
+
+/* =========================================================
+   TELAS PRINCIPAIS
+   ========================================================= */
+const estado = { aba: 'oficina', filtro: 'ativas', busca: '', buscaCli: '', buscaEst: '', filtroEst: 'todas' };
+
+function topoHTML(a) {
+  if (a === 'oficina') {
+    const n = s => db.os.filter(o => o.status === s).length;
+    const ativas = db.os.filter(o => !FINALIZADOS.includes(o.status)).length;
+    const fila = n('fila'), prontas = n('pronta');
+    let frase = 'Nenhuma moto na oficina agora.';
+    if (ativas) {
+      const partes = [];
+      if (fila) partes.push(`<b>${fila}</b> na fila`);
+      if (prontas) partes.push(`<b>${prontas}</b> ${prontas === 1 ? 'pronta' : 'prontas'} para entregar`);
+      frase = `<b>${ativas}</b> ${ativas === 1 ? 'moto' : 'motos'} na oficina${partes.length ? ', ' + juntar(partes) : ''}.`;
+    }
+    const ini = new Date(); ini.setDate(1); ini.setHours(0, 0, 0, 0);
+    const fat = db.os.filter(o => o.status === 'entregue' && (o.entregueEm || 0) >= ini.getTime()).reduce((s, o) => s + totais(o).total, 0);
+    const mes = new Date().toLocaleDateString('pt-BR', { month: 'long' });
+    return `<img class="logo-topo" src="logo-negativo.png" alt="${esc(db.config.oficina || 'Oficina')}" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><h1 hidden>${esc(db.config.oficina || 'Oficina')}</h1><p>${frase}</p><p class="topo-mes">${dinheiro(fat)} em motos entregues em ${mes}</p>`;
+  }
+  if (a === 'clientes') return `<h1>Clientes</h1><p>${pl(db.clientes.length, 'cliente', 'clientes')} e ${pl(db.motos.length, 'moto', 'motos')} cadastrados</p>`;
+  if (a === 'estoque') {
+    const baixo = db.estoque.filter(estBaixo).length;
+    return `<h1>Estoque</h1><p>${pl(db.estoque.length, 'peça cadastrada', 'peças cadastradas')}${baixo ? `, <b>${baixo}</b> para repor` : ''}</p>`;
+  }
+  return `<h1>Ajustes</h1><p>Dados da oficina, mensagens e backup</p>`;
+}
+
+function render() {
+  const a = estado.aba;
+  $('#topo').innerHTML = topoHTML(a);
+  $('#view').innerHTML = ({ oficina: viewOficina, clientes: viewClientes, estoque: viewEstoque, ajustes: viewAjustes })[a]();
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.v === a));
+  $('#fab').hidden = a === 'ajustes';
+  $('#fabTxt').textContent = { oficina: 'Nova entrada', clientes: 'Novo cliente', estoque: 'Nova peça' }[a] || '';
+  const baixo = db.estoque.filter(estBaixo).length;
+  const bd = $('#badgeEst');
+  bd.textContent = baixo || '';
+  bd.hidden = !baixo;
+}
+
+/* Atualiza a tela principal e as folhas abertas depois de uma ação */
+function atualizarTela() {
+  render();
+  const bc = corpo('sheetCliente');
+  if (bc && clienteAtualId) bc.innerHTML = htmlCliente(clienteAtualId);
+  if (osAtual) rerenderOS();
+  const lp = $('#listaPick');
+  if (lp) lp.innerHTML = listaPick(($('#buscaPick') || {}).value || '');
+}
+
+/* ---------- Oficina ---------- */
+function avisos() {
+  const itens = [];
+  if (IOS && !STANDALONE) itens.push(['instalar', ICO.celular, 'Instale na Tela de Início', 'Sem isso o iPhone pode apagar os dados']);
+  const ub = db.config.ultimoBackup;
+  if (db.os.length && (!ub || Date.now() - ub > 7 * DIA)) itens.push(['exportar', ICO.salvar, 'Fazer backup', ub ? 'O último foi ' + haQuanto(ub) : 'Nenhum backup feito ainda']);
+  const baixo = db.estoque.filter(estBaixo).length;
+  if (baixo) itens.push(['verBaixo', ICO.caixa, `${pl(baixo, 'peça', 'peças')} para repor`, 'Abaixo do estoque mínimo']);
+  if (!itens.length) return '';
+  return `<div class="folha avisos">${itens.map(([act, ic, t, s]) => `<button class="row toque" data-act="${act}"><span class="ic">${ic}</span><span class="row-txt"><b>${t}</b><small>${s}</small></span>${ICO.chev}</button>`).join('')}</div>`;
+}
+
+function viewOficina() {
+  const n = s => db.os.filter(o => o.status === s).length;
+  const ativas = db.os.filter(o => !FINALIZADOS.includes(o.status)).length;
+  const filtros = [['ativas', 'Todas', ativas], ['fila', 'Fila', n('fila')], ['aprovacao', 'Aprovação', n('aprovacao')], ['servico', 'Em serviço', n('servico')], ['peca', 'Aguardando peça', n('peca')], ['pronta', 'Prontas', n('pronta')], ['historico', 'Histórico', null]];
+  return `${avisos()}
+    <div class="barra">
+      <input type="search" class="busca" id="buscaOS" placeholder="Buscar placa, moto ou cliente" autocomplete="off" value="${esc(estado.busca)}">
+      <div class="filtros">${filtros.map(([k, l, c]) => `<button class="${estado.filtro === k && !estado.busca ? 'on' : ''}" data-act="filtro" data-v="${k}">${l}${c !== null ? `<i>${c}</i>` : ''}</button>`).join('')}</div>
+    </div>
+    <div id="lista">${listaOS()}</div>`;
+}
+
+function listaOS() {
+  const q = estado.busca.trim();
+  if (q) {
+    const r = db.os.filter(o => {
+      const m = moto(o.motoId) || {}, c = cliente(o.clienteId) || {};
+      return bate([m.placa, m.modelo, c.nome, c.telefone, pad(o.numero)].join(' '), q);
+    }).sort((a, b) => b.entrada - a.entrada);
+    if (!r.length) return vazio('Nenhuma moto encontrada com esse nome, placa ou número.');
+    return `<div class="folha mt2">${r.slice(0, 100).map(o => cardOS(o, true)).join('')}</div>` + (r.length > 100 ? `<p class="nota center">Mostrando as 100 mais recentes de ${r.length}. Digite mais da placa ou do nome para achar a certa.</p>` : '');
+  }
+  if (estado.filtro === 'historico') {
+    const r = db.os.filter(o => FINALIZADOS.includes(o.status)).sort((a, b) => (b.entregueEm || b.atualizadoEm || 0) - (a.entregueEm || a.atualizadoEm || 0));
+    if (!r.length) return vazio('As motos entregues ficam guardadas aqui.');
+    return `<div class="folha mt2">${r.slice(0, 100).map(o => cardOS(o, true)).join('')}</div>` + (r.length > 100 ? `<p class="nota center">Mostrando as 100 mais recentes. Use a busca para achar as outras.</p>` : '');
+  }
+  const grupos = estado.filtro === 'ativas' ? GRUPOS_ATIVOS : [estado.filtro];
+  let h = '';
+  grupos.forEach(s => {
+    const itens = db.os.filter(o => o.status === s).sort((a, b) => s === 'fila' ? a.entrada - b.entrada : b.entrada - a.entrada);
+    if (!itens.length) return;
+    h += `<h3 class="sec grupo st-${s}">${STATUS[s].label}<small>${itens.length}</small></h3><div class="folha">${itens.map(o => cardOS(o)).join('')}</div>`;
+  });
+  return h || vazio(estado.filtro === 'ativas' ? 'Nenhuma moto na oficina.<br>Toque em <b>Nova entrada</b> quando chegar a próxima.' : 'Nenhuma moto nessa situação agora.');
+}
+
+function cardOS(o, mostrarStatus) {
+  const m = moto(o.motoId) || {}, c = cliente(o.clienteId) || {}, t = totais(o);
+  const n = o.servicos.length, feitos = o.servicos.filter(s => s.feito).length;
+  const quando = o.status === 'entregue' ? 'entregue ' + haQuanto(o.entregueEm) : o.status === 'cancelada' ? 'cancelada' : 'entrou ' + haQuanto(o.entrada);
+  let marcas = '';
+  if (mostrarStatus) marcas += `<span class="marca st st-${o.status}">${STATUS[o.status].label}</span>`;
+  if (o.status === 'fila') {
+    const fila = db.os.filter(x => x.status === 'fila').sort((a, b) => a.entrada - b.entrada);
+    marcas += `<span class="marca fila">${fila.indexOf(o) + 1}º da fila</span>`;
+  }
+  if (o.previsao && !FINALIZADOS.includes(o.status) && o.status !== 'pronta') {
+    const d = dataISO(o.previsao);
+    if (d) marcas += d < inicioDia(Date.now()) ? `<span class="marca atraso">Atrasada, era para ${dataBR(d).slice(0, 5)}</span>` : `<span class="marca">Entregar até ${dataBR(d).slice(0, 5)}</span>`;
+  }
+  const prox = PROXIMO[o.status];
+  let acoes = '';
+  if (o.status === 'pronta') acoes += `<button class="btn wpp sm" data-act="wpp" data-tipo="pronta" data-id="${o.id}">${ICO.msg}Avisar</button>`;
+  if (prox) acoes += `<button class="btn sm" data-act="avancar" data-id="${o.id}">${ACAO_CURTA[o.status]}</button>`;
+  return `<article class="os st-${o.status}" data-act="abrirOS" data-id="${o.id}">
+    <div class="os-a">${placaHTML(m.placa)}<div class="os-id"><b>${esc(m.modelo || 'Moto')}</b><small>${esc(c.nome || 'Sem cliente')}</small></div><div class="os-n"><b>Nº ${pad(o.numero)}</b><small>${quando}</small></div></div>
+    ${o.problema ? `<p class="os-prob">${esc(o.problema)}</p>` : ''}
+    ${marcas ? `<div class="marcas">${marcas}</div>` : ''}
+    <div class="os-b">${n ? `<span class="prog"><i style="width:${Math.round(feitos / n * 100)}%"></i></span><span class="feitos">${feitos} de ${n} feitos</span>` : '<span class="feitos">Nenhum serviço lançado</span>'}<span class="total">${dinheiro(t.total)}</span></div>
+    ${acoes ? `<div class="os-c">${acoes}</div>` : ''}
+  </article>`;
+}
+
+/* ---------- Clientes ---------- */
+function viewClientes() {
+  return `<div class="barra so"><input type="search" class="busca" id="buscaCli" placeholder="Buscar nome, telefone ou placa" autocomplete="off" value="${esc(estado.buscaCli)}"></div>
+    <div id="lista">${listaClientes()}</div>`;
+}
+
+function listaClientes() {
+  const q = estado.buscaCli;
+  const porCliente = motosPorCliente();
+  const lista = db.clientes.filter(c => {
+    const ms = porCliente.get(c.id) || [];
+    return bate([c.nome, c.telefone, ...ms.map(m => `${m.placa} ${m.modelo}`)].join(' '), q);
+  }).sort((a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR'));
+  if (!lista.length) return vazio(q ? 'Nenhum cliente com esse nome, telefone ou placa.' : 'Os clientes entram aqui sozinhos quando você dá entrada numa moto.');
+  let h = '', letra = null, buf = [];
+  const fechar = () => { if (buf.length) h += `<h3 class="letra">${letra}</h3><div class="folha">${buf.join('')}</div>`; buf = []; };
+  lista.forEach(c => {
+    const L = (semAcento(c.nome).trim()[0] || '#').toUpperCase();
+    if (L !== letra) { fechar(); letra = L; }
+    const ms = porCliente.get(c.id) || [];
+    buf.push(`<button class="row toque" data-act="abrirCliente" data-id="${c.id}"><span class="av">${esc(iniciais(c.nome))}</span><span class="row-txt"><b>${esc(c.nome)}</b><small>${esc(fmtFone(c.telefone) || 'Sem WhatsApp')}</small></span><span class="placas">${ms.slice(0, 2).map(m => placaHTML(m.placa, 'sm')).join('')}${ms.length > 2 ? `<i>+${ms.length - 2}</i>` : ''}</span>${ICO.chev}</button>`);
+  });
+  fechar();
+  return h;
+}
+
+/* ---------- Estoque ---------- */
+function viewEstoque() {
+  const baixo = db.estoque.filter(estBaixo).length;
+  const valor = db.estoque.reduce((a, p) => a + Math.max(0, +p.qtd || 0) * (+p.custo || 0), 0);
+  const unidades = db.estoque.reduce((a, p) => a + Math.max(0, +p.qtd || 0), 0);
+  return `<div class="barra">
+      <input type="search" class="busca" id="buscaEst" placeholder="Buscar peça, código ou prateleira" autocomplete="off" value="${esc(estado.buscaEst)}">
+      <div class="filtros"><button class="${estado.filtroEst === 'todas' ? 'on' : ''}" data-act="filtroEst" data-v="todas">Todas<i>${db.estoque.length}</i></button><button class="${estado.filtroEst === 'baixo' ? 'on' : ''}" data-act="filtroEst" data-v="baixo">Para repor<i>${baixo}</i></button></div>
+    </div>
+    ${db.estoque.length ? `<p class="resumo"><b>${fmtQtd(unidades)}</b> ${unidades === 1 ? 'unidade' : 'unidades'} na prateleira, <b>${dinheiro(valor)}</b> pelo preço de custo</p>` : ''}
+    <div id="lista">${listaEstoque()}</div>`;
+}
+
+function listaEstoque() {
+  if (!db.estoque.length) return vazio('Cadastre as peças que você tem na prateleira.<br>Elas baixam sozinhas quando entram numa OS.');
+  const lista = db.estoque.filter(p => (estado.filtroEst !== 'baixo' || estBaixo(p)) && bate([p.nome, p.codigo, p.local].join(' '), estado.buscaEst))
+    .sort((a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR'));
+  if (!lista.length) return vazio(estado.filtroEst === 'baixo' ? 'Nenhuma peça abaixo do mínimo.' : 'Nenhuma peça com esse nome ou código.');
+  return `<div class="folha">${lista.map(p => {
+    const baixo = estBaixo(p);
+    const detalhe = [p.codigo, p.local, 'venda ' + dinheiro(p.preco)].filter(Boolean).join(', ');
+    return `<div class="row est">
+      <button class="row-txt" data-act="editarPeca" data-id="${p.id}"><b>${esc(p.nome)}</b><small>${esc(detalhe)}</small>${baixo ? `<small class="repor">${+p.qtd < 0 ? 'Estoque negativo' : 'Repor'}${+p.minimo ? ', mínimo ' + fmtQtd(p.minimo) : ''}</small>` : ''}</button>
+      <div class="qtd g"><button data-act="ajEst" data-id="${p.id}" data-d="-1" aria-label="Diminuir">−</button><span class="${+p.qtd < 0 ? 'neg' : baixo ? 'alerta' : ''}">${fmtQtd(p.qtd)}</span><button data-act="ajEst" data-id="${p.id}" data-d="1" aria-label="Aumentar">+</button></div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+/* ---------- Ajustes ---------- */
+function viewAjustes() {
+  const cfg = db.config;
+  const tamanho = tamanhoDados();
+  const ci = (k, rot, extra = '') => cIn(rot, `data-cfg="${k}" ${extra}`, cfg[k] ?? '');
+  const ct = (k, rot, linhas) => cTx(rot, `data-cfg="${k}" rows="${linhas}"`, cfg[k] || '');
+  return `
+  ${IOS && !STANDALONE ? `<div class="folha avisos"><button class="row toque" data-act="instalar"><span class="ic">${ICO.celular}</span><span class="row-txt"><b>Instale na Tela de Início</b><small>Sem isso o iPhone pode apagar os dados</small></span>${ICO.chev}</button></div>` : ''}
+  <h3 class="sec">Oficina</h3>
+  <div class="folha">
+    ${ci('oficina', 'Nome')}
+    ${ci('telefone', 'Telefone ou WhatsApp', 'type="tel"')}
+    ${ci('endereco', 'Endereço')}
+    ${ci('documento', 'CNPJ ou CPF', 'placeholder="Opcional"')}
+  </div>
+  <p class="nota">Esses dados aparecem no orçamento e nas mensagens.</p>
+
+  <h3 class="sec">WhatsApp</h3>
+  <div class="folha">
+    ${ci('ddd', 'DDD dos clientes', 'inputmode="numeric" maxlength="2" placeholder="Para números salvos sem DDD"')}
+    <label class="campo"><span>Abrir o WhatsApp</span><select data-cfg="wppModo"><option value="link"${cfg.wppModo !== 'app' ? ' selected' : ''}>Pelo link wa.me</option><option value="app"${cfg.wppModo === 'app' ? ' selected' : ''}>Direto no aplicativo</option></select></label>
+  </div>
+  <p class="nota">Se aparecer uma página do WhatsApp antes da conversa, troque para “Direto no aplicativo”.</p>
+
+  <h3 class="sec">Mensagens</h3>
+  <div class="folha">
+    ${ct('msgRecebida', 'Quando a moto chega', 4)}
+    ${ct('msgOrcamento', 'Orçamento', 7)}
+    ${ct('msgPronta', 'Quando a moto fica pronta', 7)}
+    <button class="row toque acao" data-act="restaurarMsgs">Voltar ao texto original</button>
+  </div>
+  <p class="nota">O app troca {cliente}, {moto}, {placa}, {total}, {itens}, {servicos}, {oficina}, {numero} e {validade} pelos dados da moto.</p>
+
+  <h3 class="sec">Atalhos de serviço</h3>
+  <div class="folha">
+    ${cfg.servicosRapidos.map((r, i) => `<div class="svc rap"><input data-rap="d" data-i="${i}" value="${esc(r.d)}" placeholder="Nome do serviço"><span class="vw">R$<input data-rap="v" data-i="${i}" inputmode="decimal" value="${numCampo(r.v)}" placeholder="0"></span><button class="x" data-act="delRapidoCfg" data-i="${i}" aria-label="Remover">${ICO.x}</button></div>`).join('')}
+    <button class="add" data-act="addRapidoCfg">${ICO.mais}Novo atalho</button>
+  </div>
+  <p class="nota">Aparecem como botões na ordem de serviço. O preço pode ser mudado em cada moto.</p>
+
+  <h3 class="sec">Orçamento</h3>
+  <div class="folha">
+    ${ci('validade', 'Validade em dias', 'inputmode="numeric"')}
+    ${ct('rodape', 'Texto no fim do documento', 3)}
+  </div>
+
+  <h3 class="sec">Backup</h3>
+  <div class="folha">
+    <button class="row toque acao" data-act="exportar"><span class="ic">${ICO.salvar}</span><span class="row-txt"><b>Exportar backup</b><small>Último: ${cfg.ultimoBackup ? dataHora(cfg.ultimoBackup) : 'nunca'}</small></span></button>
+    <label class="row toque acao"><span class="ic">${ICO.importar}</span><span class="row-txt"><b>Importar backup</b><small>Substitui os dados deste iPhone</small></span><input type="file" id="arqImport" class="oculto" accept=".json,application/json"></label>
+  </div>
+  <p class="nota">Os dados ficam só neste iPhone, ocupando ${tamanho}${idb ? '' : ' de um limite de uns 5 MB'}. Guarde o arquivo de backup no iCloud Drive, pelo app Arquivos, para ter uma cópia fora do aparelho.</p>
+
+  <div class="folha mt2"><button class="row toque perigo" data-act="apagarTudo">Apagar todos os dados</button></div>
+  <p class="nota center">Junior Motos, versão 1.4</p>`;
+}
+
+/* =========================================================
+   NOVA ENTRADA
+   ========================================================= */
+let entrada = null;
+
+function novaEntrada(motoId) {
+  const m = motoId ? moto(motoId) : null;
+  entrada = { motoId: m ? m.id : null, clienteId: m ? m.clienteId : null, placa: '', modelo: '', ano: '', cor: '', nome: '', fone: '', problema: '', km: '', status: 'fila' };
+  abrirSheet(htmlEntrada(), { id: 'sheetEntrada', titulo: 'Nova entrada', onClose: () => { entrada = null; } });
+}
+function rerenderEntrada() { const b = corpo('sheetEntrada'); if (b) b.innerHTML = htmlEntrada(); }
+
+function htmlEntrada() {
+  const e = entrada, m = e.motoId ? moto(e.motoId) : null;
+  const sel = s => (e.status === s ? ' selected' : '');
+  let h = '';
+  if (m) {
+    const c = cliente(m.clienteId) || {};
+    const aberta = db.os.find(o => o.motoId === m.id && !FINALIZADOS.includes(o.status));
+    const vezes = db.os.filter(o => o.motoId === m.id).length;
+    h += `<h3 class="sec">Moto</h3><div class="folha"><div class="row">${placaHTML(m.placa)}<span class="row-txt"><b>${esc(m.modelo || 'Moto')}</b><small>${esc(c.nome || '')}${vezes ? `, já veio ${pl(vezes, 'vez', 'vezes')}` : ''}</small></span><button class="link" data-act="trocarMoto">Trocar</button></div></div>`;
+    if (aberta) h += `<p class="nota alerta">Essa moto já está na oficina na OS Nº ${pad(aberta.numero)} (${STATUS[aberta.status].label.toLowerCase()}).</p>`;
+  } else {
+    h += `<h3 class="sec">Moto</h3><div class="folha">
+        ${cIn('Placa', 'data-en="placa" class="up" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="ABC1D23"', e.placa)}
+        ${cIn('Modelo', 'data-en="modelo" placeholder="Honda CG 160 Fan"', e.modelo)}
+        <div class="par">${cIn('Ano', 'data-en="ano" inputmode="numeric"', e.ano)}${cIn('Cor', 'data-en="cor"', e.cor)}</div>
+      </div>
+      <div id="sugMotos"></div>
+      <h3 class="sec">Cliente</h3>`;
+    const c = e.clienteId ? cliente(e.clienteId) : null;
+    if (c) h += `<div class="folha"><div class="row"><span class="av">${esc(iniciais(c.nome))}</span><span class="row-txt"><b>${esc(c.nome)}</b><small>${esc(fmtFone(c.telefone) || 'Sem WhatsApp')}</small></span><button class="link" data-act="trocarCliente">Trocar</button></div></div>`;
+    else h += `<div class="folha">${cIn('Nome', 'data-en="nome" autocomplete="off"', e.nome)}${cIn('WhatsApp', 'data-en="fone" type="tel" placeholder="DDD e número"', e.fone)}</div><div id="sugClientes"></div>`;
+  }
+  h += `<h3 class="sec">Serviço</h3>
+    <div class="folha">
+      ${cTx('O que o cliente relatou', 'data-en="problema" rows="3" placeholder="Barulho no motor, freio fraco, revisão…"', e.problema)}
+      ${cIn('Quilometragem', 'data-en="km" inputmode="numeric"', e.km)}
+      <label class="campo"><span>Situação</span><select data-en="status">
+        <option value="fila"${sel('fila')}>Entra na fila de espera</option>
+        <option value="aprovacao"${sel('aprovacao')}>Aguarda aprovação do orçamento</option>
+        <option value="servico"${sel('servico')}>Já entra em serviço</option>
+      </select></label>
+    </div>
+    <button class="btn primario full mt2" data-act="criarOS">Dar entrada</button>`;
+  return h;
+}
+
+function sugerirMotos(v) {
+  const box = $('#sugMotos'); if (!box) return;
+  const q = compacto(v);
+  if (q.length < 2) { box.innerHTML = ''; return; }
+  const ms = db.motos.filter(m => compacto(m.placa).includes(q)).slice(0, 4);
+  box.innerHTML = ms.length ? `<p class="nota">Já veio aqui? Toque para usar a ficha:</p><div class="folha mt">${ms.map(m => `<button class="row toque" data-act="selMoto" data-id="${m.id}">${placaHTML(m.placa, 'sm')}<span class="row-txt"><b>${esc(m.modelo || 'Moto')}</b><small>${esc((cliente(m.clienteId) || {}).nome || '')}</small></span></button>`).join('')}</div>` : '';
+}
+
+function sugerirClientes(v) {
+  const box = $('#sugClientes'); if (!box) return;
+  const q = String(v || '').trim();
+  if (q.length < 2) { box.innerHTML = ''; return; }
+  const cs = db.clientes.filter(c => bate(`${c.nome} ${String(c.telefone || '').replace(/\D/g, '')}`, q)).slice(0, 4);
+  box.innerHTML = cs.length ? `<p class="nota">Já é cliente? Toque para usar o cadastro:</p><div class="folha mt">${cs.map(c => `<button class="row toque" data-act="selCliente" data-id="${c.id}"><span class="av">${esc(iniciais(c.nome))}</span><span class="row-txt"><b>${esc(c.nome)}</b><small>${esc(fmtFone(c.telefone) || 'Sem WhatsApp')}</small></span></button>`).join('')}</div>` : '';
+}
+
+function criarOS() {
+  const e = entrada; if (!e) return;
+  let motoId = e.motoId, clienteId = e.clienteId;
+  if (!motoId) {
+    const placa = fmtPlaca(e.placa);
+    if (!placa && !e.modelo.trim()) { toast('Informe a placa ou o modelo da moto'); return; }
+    const existe = placa ? db.motos.find(m => compacto(m.placa) === compacto(placa)) : null;
+    if (existe) {
+      motoId = existe.id; clienteId = existe.clienteId;
+      toast(`Essa placa já tinha ficha: usei a de ${(cliente(clienteId) || {}).nome || 'um cliente'}`);
+    } else {
+      if (!clienteId) {
+        if (!e.nome.trim()) { toast('Informe o nome do cliente'); return; }
+        const c = { id: uid(), nome: e.nome.trim(), telefone: e.fone.trim(), obs: '', criadoEm: Date.now() };
+        db.clientes.push(c); clienteId = c.id;
+      }
+      const m = { id: uid(), clienteId, placa, modelo: e.modelo.trim(), ano: e.ano.trim(), cor: e.cor.trim(), obs: '' };
+      db.motos.push(m); motoId = m.id;
+    }
+  }
+  const agora = Date.now();
+  const o = {
+    id: uid(), numero: db.seq++, motoId, clienteId, status: e.status || 'fila',
+    problema: e.problema.trim(), km: e.km.trim(), previsao: '', servicos: [], pecas: [], desconto: 0, obs: '',
+    entrada: agora, atualizadoEm: agora, entregueEm: null, historico: [{ s: e.status || 'fila', t: agora }], baixas: {}
+  };
+  db.os.push(o);
+  salvar();
+  fecharSheet();
+  if (estado.aba !== 'oficina') { estado.aba = 'oficina'; window.scrollTo(0, 0); }
+  estado.busca = '';
+  render();
+  abrirOS(o.id);
+}
+
+/* =========================================================
+   ORDEM DE SERVIÇO
+   ========================================================= */
+let osAtual = null;
+
+function abrirOS(id) {
+  const o = ordem(id); if (!o) return;
+  if ($('#sheetOS')) {
+    fecharAte('sheetOS');
+    if (osAtual === o) { rerenderOS(); return; }
+    fecharSheet();
+  }
+  osAtual = o;
+  abrirSheet(htmlOS(), { id: 'sheetOS', titulo: 'Ordem de serviço', onClose: () => { salvarPendente(); osAtual = null; atualizarTela(); } });
+}
+
+function rerenderOS() {
+  const b = corpo('sheetOS');
+  if (!b || !osAtual) return;
+  const st = b.scrollTop;
+  b.innerHTML = htmlOS();
+  b.scrollTop = st;
+}
+
+const htmlTotais = t => `<div class="tk"><span>Serviços</span><span>${dinheiro(t.servicos)}</span></div><div class="tk"><span>Peças</span><span>${dinheiro(t.pecas)}</span></div>${t.desconto ? `<div class="tk"><span>Desconto</span><span>− ${dinheiro(t.desconto)}</span></div>` : ''}<div class="tk-total"><span>Total</span><b>${dinheiro(t.total)}</b></div>`;
+
+function atualizarTotais() { const b = $('#osTotais'); if (b && osAtual) b.innerHTML = htmlTotais(totais(osAtual)); }
+
+const linhaServico = (s, i) => `<div class="svc ${s.feito ? 'feito' : ''}">
+  <button class="chk" data-act="toggleFeito" data-i="${i}" aria-label="Marcar como feito">${ICO.check}</button>
+  <input class="desc" data-svc="desc" data-i="${i}" value="${esc(s.desc)}" placeholder="O que fazer">
+  <span class="vw">R$<input data-svc="valor" data-i="${i}" inputmode="decimal" value="${numCampo(s.valor)}" placeholder="0"></span>
+  <button class="x" data-act="delServico" data-i="${i}" aria-label="Remover">${ICO.x}</button>
+</div>`;
+
+function linhaPeca(l, i) {
+  const p = l.pecaId ? peca(l.pecaId) : null;
+  const info = p ? `Do estoque, ${fmtQtd(p.qtd)} na prateleira` : (l.pecaId ? 'Essa peça foi removida do estoque' : 'Comprada fora, não mexe no estoque');
+  return `<div class="pc">
+    <div class="pc-a"><input data-pc="desc" data-i="${i}" value="${esc(l.desc)}" placeholder="Nome da peça"><button class="x" data-act="delPeca" data-i="${i}" aria-label="Remover">${ICO.x}</button></div>
+    <div class="pc-info ${p && +p.qtd < 0 ? 'neg' : ''}">${info}</div>
+    <div class="pc-b">
+      <div class="qtd"><button data-act="qtdPeca" data-i="${i}" data-d="-1" aria-label="Menos">−</button><span>${fmtQtd(l.qtd)}</span><button data-act="qtdPeca" data-i="${i}" data-d="1" aria-label="Mais">+</button></div>
+      <label class="preco">× R$<input data-pc="preco" data-i="${i}" inputmode="decimal" value="${numCampo(l.preco)}" placeholder="0"></label>
+      <b class="pc-tot" id="pcTot${i}">${dinheiro((+l.qtd || 0) * (+l.preco || 0))}</b>
+    </div>
+  </div>`;
+}
+
+function htmlOS() {
+  const o = osAtual, m = moto(o.motoId) || {}, c = cliente(o.clienteId) || {};
+  const n = o.servicos.length, feitos = o.servicos.filter(s => s.feito).length;
+  const oleo = ultimaTrocaOleo(o.motoId, o.id);
+  const prox = PROXIMO[o.status];
+  const desde = o.historico.length ? o.historico[o.historico.length - 1].t : o.entrada;
+  const ctx = MSG_CTX[o.status] || 'livre';
+  const detalhes = [m.ano, m.cor].filter(Boolean).join(', ');
+  return `
+  <div class="via faixa">
+    <div class="via-a">${placaHTML(m.placa, 'lg')}<div class="via-n"><b>Nº ${pad(o.numero)}</b></div></div>
+    <div class="via-moto"><b>${esc(m.modelo || 'Moto')}</b>${detalhes ? `<small>${esc(detalhes)}</small>` : ''}</div>
+    ${c.id ? `<button class="row toque" data-act="abrirCliente" data-id="${c.id}"><span class="av">${esc(iniciais(c.nome))}</span><span class="row-txt"><b>${esc(c.nome)}</b><small>${esc(fmtFone(c.telefone) || 'Sem WhatsApp')}</small></span>${ICO.chev}</button>` : ''}
+  </div>
+  ${oleo ? `<p class="nota">Última troca de óleo em ${dataBR(oleo.data)}${oleo.km ? `, com ${esc(oleo.km)} km` : ''}.</p>` : ''}
+
+  <h3 class="sec">Situação</h3>
+  <div class="folha">
+    <div class="sit st-${o.status}"><div class="sit-txt"><b>${STATUS[o.status].label}</b><small>Desde ${quandoCurto(desde)}</small></div><button class="link" data-act="mudarSituacao">Mudar</button></div>
+    ${prox ? `<div class="pad"><button class="btn primario full" data-act="avancar" data-id="${o.id}">${ACAO_LABEL[o.status]}</button></div>` : ''}
+  </div>
+  <div class="dupla">
+    <button class="btn wpp" data-act="wpp" data-tipo="${ctx}" data-id="${o.id}">${ICO.msg}${MSG_ROTULO[ctx]}</button>
+    <button class="btn" data-act="outrasMsgs" data-id="${o.id}">Outras</button>
+  </div>
+
+  <h3 class="sec">Entrada</h3>
+  <div class="folha">
+    <div class="par">${cIn('Quilometragem', 'data-os="km" inputmode="numeric"', o.km)}${cIn('Entregar até', 'data-os="previsao" type="date"', o.previsao)}</div>
+    ${cTx('O que o cliente relatou', 'data-os="problema" rows="2"', o.problema)}
+  </div>
+
+  <h3 class="sec">O que fazer <small class="dir" id="contFeitos">${feitos} de ${n} feitos</small></h3>
+  <div class="folha">
+    ${o.servicos.map(linhaServico).join('')}
+    <button class="add" data-act="addServico">${ICO.mais}Adicionar serviço</button>
+  </div>
+  ${db.config.servicosRapidos.some(r => r.d) ? `<div class="atalhos">${db.config.servicosRapidos.map((r, i) => r.d ? `<button class="atalho" data-act="addRapido" data-i="${i}"><span>+</span>${esc(r.d)}</button>` : '').join('')}</div>` : ''}
+
+  <h3 class="sec">Peças</h3>
+  <div class="folha">
+    ${o.pecas.map(linhaPeca).join('')}
+    <button class="add" data-act="pickPeca">${ICO.mais}Peça do estoque</button>
+    <button class="add" data-act="addAvulsa">${ICO.mais}Peça comprada fora</button>
+  </div>
+  <p class="nota">${CONSOME_ESTOQUE.includes(o.status) ? 'As peças do estoque já foram baixadas.' : 'O estoque só baixa quando a moto entra em serviço.'}</p>
+
+  <h3 class="sec">Valores</h3>
+  <div class="folha">
+    ${cIn('Desconto em R$', 'data-os="desconto" inputmode="decimal" placeholder="0"', numCampo(o.desconto))}
+    ${cTx('Observações para o orçamento', 'data-os="obs" rows="2"', o.obs)}
+    <div class="ticket" id="osTotais">${htmlTotais(totais(o))}</div>
+  </div>
+
+  <button class="btn tinta full mt2" data-act="documento">${ICO.doc}Gerar orçamento ou recibo</button>
+  <p class="nota center">Entrou em ${dataHora(o.entrada)}${o.entregueEm ? `, entregue em ${dataHora(o.entregueEm)}` : ''}. Tudo é salvo sozinho.</p>
+  <button class="btn perigo full" data-act="excluirOS">Excluir esta OS</button>`;
+}
+
+function focarUltimo(sel) {
+  const els = document.querySelectorAll('#sheetOS ' + sel);
+  const el = els[els.length - 1];
+  if (el) el.focus();
+}
+
+function mudarSituacao() {
+  if (!osAtual) return;
+  abrirSheet(`<div class="folha">${ORDEM_STATUS.map(s => `<button class="row toque" data-act="setStatusFechar" data-v="${s}"><span class="st so st-${s}"></span><span class="row-txt"><b>${STATUS[s].label}</b><small>${STATUS[s].dica}</small></span>${osAtual.status === s ? ICO.ok : ''}</button>`).join('')}</div>`, { titulo: 'Mudar situação', mini: true });
+}
+
+function outrasMsgs(id) {
+  const o = ordem(id); if (!o) return;
+  const tipos = [['recebida', 'Moto recebida'], ['orcamento', 'Orçamento'], ['pronta', 'Moto pronta'], ['livre', 'Só puxar conversa']];
+  abrirSheet(`<div class="folha">${tipos.map(([t, r]) => `<button class="row toque" data-act="wppFechar" data-tipo="${t}" data-id="${o.id}"><span class="row-txt"><b>${r}</b><small class="duas">${esc(montarMsg(t, o).replace(/\*/g, '').replace(/\s+/g, ' '))}</small></span>${ICO.chev}</button>`).join('')}</div><p class="nota">O texto de cada mensagem pode ser mudado em Ajustes.</p>`, { titulo: 'Mensagem no WhatsApp', mini: true });
+}
+
+function perguntarAvisar(o) {
+  const c = cliente(o.clienteId) || {};
+  const corpoHtml = c.telefone
+    ? `<p class="pergunta">Mandar esta mensagem para ${esc(primeiroNome(c.nome))}?</p><div class="bolha">${bolhaHTML(montarMsg('pronta', o))}</div>
+       <button class="btn wpp full" data-act="wppFechar" data-tipo="pronta" data-id="${o.id}">${ICO.msg}Abrir no WhatsApp</button>`
+    : `<p class="pergunta">${esc(c.nome || 'O cliente')} não tem WhatsApp cadastrado.</p>${c.id ? `<button class="btn tinta full" data-act="abrirCliente" data-id="${c.id}">Cadastrar o WhatsApp</button>` : ''}`;
+  abrirSheet(corpoHtml + `<button class="btn full mt" data-act="fechar">Agora não</button>`, { titulo: 'Moto pronta', mini: true });
+}
+
+function instalar() {
+  abrirSheet(`<ol class="passos">
+    <li><b>Abra o endereço do app no Safari</b><small>Se o link abriu dentro de outro aplicativo, abra no Safari primeiro.</small></li>
+    <li><b>Toque em Compartilhar</b><small>O quadrado com uma seta para cima, na barra do Safari.</small></li>
+    <li><b>Escolha “Adicionar à Tela de Início”</b><small>Se não aparecer, role a lista de opções para baixo.</small></li>
+    <li><b>Use sempre pelo ícone novo</b><small>Instalado, o iPhone não apaga os dados por falta de uso.</small></li>
+  </ol>`, { titulo: 'Instalar no iPhone', mini: true });
+}
+
+/* ---------- Escolher peça do estoque ---------- */
+function abrirPick() {
+  abrirSheet(`<input type="search" class="busca" id="buscaPick" placeholder="Buscar peça ou código" autocomplete="off">
+    <div id="listaPick" class="mt">${listaPick('')}</div>
+    <div class="folha mt"><button class="add" data-act="novaPecaPick">${ICO.mais}Cadastrar peça nova</button></div>`, { id: 'sheetPick', titulo: 'Peça do estoque' });
+}
+
+function listaPick(q) {
+  if (!db.estoque.length) return vazio('Nenhuma peça no estoque ainda.');
+  const itens = db.estoque.filter(p => bate([p.nome, p.codigo, p.local].join(' '), q)).sort((a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR'));
+  if (!itens.length) return vazio('Nenhuma peça com esse nome ou código.');
+  return `<div class="folha">${itens.map(p => `<button class="row toque" data-act="escolherPeca" data-id="${p.id}">
+    <span class="row-txt"><b>${esc(p.nome)}</b>${p.codigo || p.local ? `<small>${esc([p.codigo, p.local].filter(Boolean).join(', '))}</small>` : ''}</span>
+    <span class="row-dir"><b>${dinheiro(p.preco)}</b><small class="${+p.qtd <= 0 ? 'neg' : ''}">${fmtQtd(p.qtd)} na prateleira</small></span>
+  </button>`).join('')}</div>`;
+}
+
+/* ---------- Documento (orçamento / recibo em imagem) ---------- */
+let docAtual = null;
+let logoDoc = null;
+const logoPronta = new Promise(ok => {
+  const img = new Image();
+  img.onload = () => { logoDoc = img; ok(img); };
+  img.onerror = () => ok(null);
+  img.src = 'logo.png';
+});
+
+function abrirDocumento() {
+  if (!osAtual) return;
+  salvarPendente();
+  const tipo = ['pronta', 'entregue'].includes(osAtual.status) ? 'recibo' : 'orcamento';
+  abrirSheet(`<div class="seg" id="segDoc"><button data-act="tipoDoc" data-v="orcamento">Orçamento</button><button data-act="tipoDoc" data-v="recibo">Recibo</button></div>
+    <div class="prev"><img id="docImg" alt="Prévia do documento"></div>
+    <button class="btn tinta full" data-act="compartilharDoc">${ICO.compartilhar}Compartilhar imagem</button>
+    <p class="nota center">Pelo menu do iPhone dá para mandar no WhatsApp, salvar nas fotos ou imprimir.</p>
+    <button class="btn wpp-l full mt" id="btnDocTexto" data-act="wpp" data-tipo="orcamento" data-id="${osAtual.id}">${ICO.msg}Mandar como texto</button>`,
+    { id: 'sheetDoc', titulo: 'Documento', onClose: () => { if (docAtual && docAtual.url) URL.revokeObjectURL(docAtual.url); docAtual = null; } });
+  gerarDocumento(tipo);
+}
+
+async function gerarDocumento(tipo) {
+  if (!osAtual) return;
+  document.querySelectorAll('#segDoc button').forEach(b => b.classList.toggle('on', b.dataset.v === tipo));
+  const bt = $('#btnDocTexto');
+  if (bt) bt.dataset.tipo = tipo === 'recibo' ? 'pronta' : 'orcamento';
+  try {
+    await logoPronta;
+    if (document.fonts && document.fonts.load) await Promise.all([document.fonts.load('700 40px "Barlow Condensed"'), document.fonts.load('600 40px "Barlow Condensed"'), document.fonts.load('italic 700 40px "Barlow Condensed"')]);
+  } catch (e) { /* segue com a fonte do sistema */ }
+  const o = osAtual;
+  if (!o || !$('#sheetDoc')) return;
+  const numero = pad(o.numero);
+  let cv = desenharDocumento(o, tipo);
+  try { cv.getContext('2d').getImageData(0, 0, 1, 1); }
+  catch (e) { logoDoc = null; cv = desenharDocumento(o, tipo); } /* aberto sem servidor: desenha sem a logo */
+  cv.toBlob(blob => {
+    if (!$('#sheetDoc')) return;
+    if (!blob) { toast('Não foi possível gerar a imagem'); return; }
+    if (docAtual && docAtual.url) URL.revokeObjectURL(docAtual.url);
+    const nome = `${tipo === 'recibo' ? 'Recibo' : 'Orcamento'}-${numero}.png`;
+    docAtual = { tipo, file: new File([blob], nome, { type: 'image/png' }), url: URL.createObjectURL(blob) };
+    const img = $('#docImg');
+    if (img) img.src = docAtual.url;
+  }, 'image/png');
+}
+
+function desenharDocumento(o, tipo) {
+  const cfg = db.config, c = cliente(o.clienteId) || {}, m = moto(o.motoId) || {}, t = totais(o);
+  const W = 1080, P = 72, CW = W - P * 2;
+  const COR = { tinta: '#161616', suave: '#5c5c66', pauta: '#e3e3e7', numero: '#e3120b', topo: '#111112' };
+  const SANS = '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif';
+  const COND = '"Barlow Condensed", "Arial Narrow", sans-serif';
+  const F = (peso, tam, fam = SANS) => `${peso} ${tam}px ${fam}`;
+  const cv = document.createElement('canvas');
+  const ctx = cv.getContext('2d');
+  let desenhar = false, y = 0, H = 0;
+
+  const medir = (s, f) => { ctx.font = f; return ctx.measureText(s).width; };
+  function texto(s, x, base, f, cor, al = 'left') {
+    if (!desenhar) return;
+    ctx.font = f; ctx.fillStyle = cor; ctx.textAlign = al; ctx.textBaseline = 'alphabetic';
+    ctx.fillText(s, x, base);
+  }
+  function ret(x, yy, w, h, cor) { if (!desenhar) return; ctx.fillStyle = cor; ctx.fillRect(x, yy, w, h); }
+  function quebrar(s, maxW, f) {
+    ctx.font = f;
+    const out = [];
+    String(s || '').split('\n').forEach(par => {
+      let linha = '';
+      par.split(/\s+/).filter(Boolean).forEach(p => {
+        const teste = linha ? linha + ' ' + p : p;
+        if (linha && ctx.measureText(teste).width > maxW) { out.push(linha); linha = p; }
+        else linha = teste;
+      });
+      out.push(linha);
+    });
+    return out;
+  }
+  function paragrafo(s, x, maxW, tam, peso, cor, lh, fam = SANS) {
+    const f = F(peso, tam, fam);
+    quebrar(s, maxW, f).forEach(l => { texto(l, x, y + tam, f, cor); y += lh || Math.round(tam * 1.38); });
+  }
+  function rotulo(s) { y += 40; texto(s, P, y + 24, F(600, 26, COND), COR.suave); y += 38; }
+  function cabTabela(cols) {
+    cols.forEach(([s, x, al]) => texto(s, x, y + 22, F(600, 22), COR.suave, al));
+    y += 34; ret(P, y, CW, 3, COR.tinta); y += 3;
+  }
+
+  function montar() {
+    y = 0;
+    if (desenhar) {
+      ret(0, 0, W, H, '#ffffff');
+      ret(0, 0, W, 14, COR.topo);
+      ctx.fillStyle = COR.numero;
+      ctx.beginPath(); ctx.moveTo(0, 14); ctx.lineTo(W, 14); ctx.lineTo(W, 20); ctx.lineTo(0, 30); ctx.closePath(); ctx.fill();
+    }
+
+    /* Cabeçalho: oficina à esquerda, tipo e número à direita */
+    const titulo = tipo === 'recibo' ? 'Recibo' : 'Orçamento';
+    const fT = F('italic 700', 50, COND), fN = F('italic 700', 50, COND);
+    const largDir = Math.max(medir(titulo, fT), medir('Nº ' + pad(o.numero), fN));
+    texto(titulo, W - P, 72 + 44, fT, COR.tinta, 'right');
+    texto('Nº ' + pad(o.numero), W - P, 72 + 44 + 52, fN, COR.numero, 'right');
+    const fimDir = 72 + 44 + 52 + 12;
+    const largEsq = CW - largDir - 48;
+    y = 72;
+    if (logoDoc && logoDoc.naturalWidth) {
+      const prop = logoDoc.naturalWidth / logoDoc.naturalHeight;
+      const lw = Math.min(Math.round(170 * prop), largEsq), lh = Math.round(lw / prop);
+      if (desenhar) ctx.drawImage(logoDoc, P - 6, 52, lw, lh);
+      y = 52 + lh + 14;
+    } else {
+      paragrafo(cfg.oficina || 'Oficina', P, largEsq, 64, 700, COR.tinta, 64, COND);
+      y += 16;
+    }
+    if (cfg.telefone) paragrafo(fmtFone(cfg.telefone), P, largEsq, 26, 400, COR.suave, 36);
+    if (cfg.endereco) paragrafo(cfg.endereco, P, largEsq, 26, 400, COR.suave, 36);
+    if (cfg.documento) paragrafo('CNPJ/CPF ' + cfg.documento, P, largEsq, 24, 400, COR.suave, 34);
+    y = Math.max(y, fimDir) + 26;
+    ret(P, y, CW, 4, COR.tinta); y += 4;
+
+    /* Dados do cliente e da moto em duas colunas */
+    const col2 = P + CW / 2 + 16, largCol = CW / 2 - 24;
+    const linhaInfo = (r1, v1, r2, v2) => {
+      y += 24;
+      texto(r1, P, y + 22, F(600, 22), COR.suave);
+      texto(r2, col2, y + 22, F(600, 22), COR.suave);
+      y += 32;
+      const y0 = y;
+      paragrafo(v1 || '—', P, largCol, 30, 600, COR.tinta, 40);
+      const y1 = y; y = y0;
+      paragrafo(v2 || '—', col2, largCol, 30, 600, COR.tinta, 40);
+      y = Math.max(y, y1) + 14;
+      ret(P, y, CW, 2, COR.pauta); y += 2;
+    };
+    linhaInfo('Cliente', c.nome, 'WhatsApp', fmtFone(c.telefone));
+    linhaInfo('Moto', [m.modelo, m.ano, m.cor].filter(Boolean).join(', '), o.km ? 'Placa e quilometragem' : 'Placa', (m.placa || '—') + (o.km ? `, ${o.km} km` : ''));
+    const hoje = Date.now();
+    if (tipo === 'recibo') linhaInfo('Data', dataBR(hoje), 'Entrada da moto', dataBR(o.entrada));
+    else linhaInfo('Emitido em', dataBR(hoje), 'Válido até', +cfg.validade > 0 ? dataBR(hoje + cfg.validade * DIA) : '—');
+
+    if (o.problema) { rotulo('Problema relatado'); paragrafo(o.problema, P, CW, 28, 400, COR.tinta, 40); }
+
+    /* Serviços */
+    if (o.servicos.length) {
+      y += 44;
+      cabTabela([['Serviço', P, 'left'], ['Valor', W - P, 'right']]);
+      o.servicos.forEach(s => {
+        y += 16;
+        texto(dinheiro(s.valor), W - P, y + 30, F(600, 30), COR.tinta, 'right');
+        quebrar(s.desc || 'Serviço', CW - 260, F(400, 30)).forEach(l => { texto(l, P, y + 30, F(400, 30), COR.tinta); y += 42; });
+        y += 4; ret(P, y, CW, 2, COR.pauta); y += 2;
+      });
+    }
+
+    /* Peças */
+    if (o.pecas.length) {
+      y += 44;
+      const xD = P + 92, xU = W - P - 210, xT = W - P;
+      cabTabela([['Qtd', P, 'left'], ['Peça', xD, 'left'], ['Unitário', xU, 'right'], ['Total', xT, 'right']]);
+      o.pecas.forEach(l => {
+        y += 16;
+        texto(fmtQtd(l.qtd), P, y + 30, F(600, 30), COR.tinta);
+        texto(dinheiro(l.preco), xU, y + 30, F(400, 27), COR.suave, 'right');
+        texto(dinheiro((+l.qtd || 0) * (+l.preco || 0)), xT, y + 30, F(600, 30), COR.tinta, 'right');
+        quebrar(l.desc || 'Peça', xU - xD - 180, F(400, 30)).forEach(s => { texto(s, xD, y + 30, F(400, 30), COR.tinta); y += 42; });
+        y += 4; ret(P, y, CW, 2, COR.pauta); y += 2;
+      });
+    }
+
+    if (!o.servicos.length && !o.pecas.length) { y += 40; paragrafo('Nenhum serviço ou peça lançado.', P, CW, 28, 400, COR.suave); }
+
+    /* Totais */
+    y += 22;
+    const linhaTot = (rot, val, cor) => {
+      texto(rot, W - P - 300, y + 28, F(400, 28), COR.suave, 'right');
+      texto(val, W - P, y + 28, F(600, 28), cor, 'right');
+      y += 42;
+    };
+    if (o.servicos.length && o.pecas.length) { linhaTot('Serviços', dinheiro(t.servicos), COR.tinta); linhaTot('Peças', dinheiro(t.pecas), COR.tinta); }
+    if (t.desconto) linhaTot('Desconto', '− ' + dinheiro(t.desconto), COR.tinta);
+    y += 12;
+    ret(P, y, CW, 124, COR.topo);
+    ret(P, y + 118, CW, 6, COR.numero);
+    texto('Total', P + 30, y + 78, F('italic 700', 42, COND), '#ffffff');
+    texto(dinheiro(t.total), W - P - 30, y + 86, F(700, 76, COND), '#ffffff', 'right');
+    y += 124;
+
+    if (tipo === 'recibo') {
+      y += 38;
+      paragrafo(`Recebemos de ${c.nome || 'cliente'} o valor de ${dinheiro(t.total)}, referente aos serviços e peças descritos acima.`, P, CW, 27, 400, COR.tinta, 40);
+    }
+    const obs = [o.obs, cfg.rodape].filter(Boolean).join('\n');
+    if (obs) { rotulo('Observações'); paragrafo(obs, P, CW, 26, 400, COR.tinta, 38); }
+
+    /* Assinatura e rodapé */
+    y += 100;
+    ret(W / 2 - 260, y, 520, 2, COR.tinta);
+    y += 14;
+    texto(tipo === 'recibo' ? (cfg.oficina || 'Oficina') : 'Assinatura do cliente aprovando o serviço', W / 2, y + 26, F(400, 24), COR.suave, 'center');
+    y += 66;
+    texto('Documento sem valor fiscal', W / 2, y + 22, F(400, 22), '#8b94ab', 'center');
+    y += 64;
+    return y;
+  }
+
+  desenhar = false;
+  H = Math.ceil(montar());
+  cv.width = W;
+  cv.height = H;
+  desenhar = true;
+  montar();
+  return cv;
+}
+
+function baixarArquivo(f) {
+  const u = URL.createObjectURL(f);
+  const a = document.createElement('a');
+  a.href = u; a.download = f.name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 5000);
+}
+
+/* =========================================================
+   CLIENTES E MOTOS
+   ========================================================= */
+let clienteAtualId = null;
+
+function abrirCliente(id) {
+  if (!cliente(id)) return;
+  if ($('#sheetCliente')) {
+    fecharAte('sheetCliente');
+    clienteAtualId = id;
+    corpo('sheetCliente').innerHTML = htmlCliente(id);
+    return;
+  }
+  clienteAtualId = id;
+  abrirSheet(htmlCliente(id), { id: 'sheetCliente', titulo: 'Ficha do cliente', onClose: () => { salvarPendente(); clienteAtualId = null; atualizarTela(); } });
+}
+
+function htmlCliente(id) {
+  const c = cliente(id);
+  if (!c) return vazio('Esse cliente não existe mais.');
+  const ms = db.motos.filter(m => m.clienteId === id);
+  const gasto = db.os.filter(o => o.clienteId === id && o.status === 'entregue').reduce((s, o) => s + totais(o).total, 0);
+  const desde = c.criadoEm ? 'Cliente desde ' + dataBR(c.criadoEm) : 'Cliente';
+  return `<div class="cli-cab"><span class="av lg">${esc(iniciais(c.nome))}</span><div><h3>${esc(c.nome)}</h3><small>${desde}${gasto ? `, ${dinheiro(gasto)} em serviços` : ''}</small></div></div>
+  <button class="btn wpp full mt" data-act="wppCliente" data-id="${c.id}">${ICO.msg}Conversar no WhatsApp</button>
+  <h3 class="sec">Dados</h3>
+  <div class="folha">
+    ${cIn('Nome', `data-cli="nome" data-id="${c.id}"`, c.nome)}
+    ${cIn('WhatsApp', `data-cli="telefone" data-id="${c.id}" type="tel" placeholder="DDD e número"`, c.telefone || '')}
+    ${cTx('Observações', `data-cli="obs" data-id="${c.id}" rows="2"`, c.obs || '')}
+  </div>
+  <h3 class="sec">Motos<small>${ms.length}</small></h3>
+  ${ms.map(fichaMoto).join('')}
+  <div class="folha mt"><button class="add" data-act="editarMoto" data-cliente="${c.id}">${ICO.mais}Adicionar moto</button></div>
+  <button class="btn perigo full mt2" data-act="excluirCliente" data-id="${c.id}">Excluir cliente</button>`;
+}
+
+function fichaMoto(m) {
+  const oss = db.os.filter(o => o.motoId === m.id).sort((a, b) => b.entrada - a.entrada);
+  const oleo = ultimaTrocaOleo(m.id);
+  const detalhes = [m.ano, m.cor].filter(Boolean).join(', ');
+  return `<div class="folha mt">
+    <div class="row">${placaHTML(m.placa)}<span class="row-txt"><b>${esc(m.modelo || 'Moto')}</b>${detalhes ? `<small>${esc(detalhes)}</small>` : ''}</span><button class="link" data-act="editarMoto" data-id="${m.id}">Editar</button></div>
+    ${oleo ? `<div class="row info">Última troca de óleo em ${dataBR(oleo.data)}${oleo.km ? `, com ${esc(oleo.km)} km` : ''}</div>` : ''}
+    ${m.obs ? `<div class="row info">${esc(m.obs)}</div>` : ''}
+    ${oss.map(o => `<button class="row toque" data-act="abrirOS" data-id="${o.id}"><span class="row-txt"><b>Nº ${pad(o.numero)}, ${dataBR(o.entrada)}</b><small><span class="st st-${o.status}">${STATUS[o.status].label}</span></small></span><span class="valor">${dinheiro(totais(o).total)}</span>${ICO.chev}</button>`).join('')}
+    <button class="add" data-act="novaOSMoto" data-id="${m.id}">${ICO.mais}Nova entrada desta moto</button>
+  </div>`;
+}
+
+function novoCliente() {
+  abrirSheet(`<div class="folha">
+      ${cIn('Nome', 'id="ncNome" autocomplete="off"')}
+      ${cIn('WhatsApp', 'id="ncFone" type="tel" placeholder="DDD e número"')}
+      ${cTx('Observações', 'id="ncObs" rows="2"')}
+    </div>
+    <button class="btn primario full mt2" data-act="salvarNovoCliente">Salvar e adicionar a moto</button>`, { id: 'sheetNovoCli', titulo: 'Novo cliente' });
+}
+
+function editarMoto(id, clienteId) {
+  const m = id ? moto(id) : null;
+  const v = m || {};
+  abrirSheet(`<div class="folha">
+      ${cIn('Placa', 'id="mPlaca" class="up" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="ABC1D23"', v.placa || '')}
+      ${cIn('Modelo', 'id="mModelo" placeholder="Honda CG 160 Fan"', v.modelo || '')}
+      <div class="par">${cIn('Ano', 'id="mAno" inputmode="numeric"', v.ano || '')}${cIn('Cor', 'id="mCor"', v.cor || '')}</div>
+      ${cTx('Observações', 'id="mObs" rows="2"', v.obs || '')}
+    </div>
+    <button class="btn primario full mt2" data-act="salvarMoto" data-id="${esc(id || '')}" data-cliente="${esc(clienteId || v.clienteId || '')}">Salvar moto</button>
+    ${m ? `<button class="btn perigo full" data-act="excluirMoto" data-id="${m.id}">Excluir moto</button>` : ''}`, { id: 'sheetMoto', titulo: m ? 'Editar moto' : 'Nova moto' });
+}
+
+/* =========================================================
+   ESTOQUE
+   ========================================================= */
+function margemTxt(custo, preco) {
+  custo = +custo || 0; preco = +preco || 0;
+  if (!custo || !preco) return '';
+  return `Lucro de ${dinheiro(preco - custo)} por unidade (${Math.round((preco - custo) / custo * 100)}% sobre o custo).`;
+}
+
+function editarPeca(id) {
+  const p = id ? peca(id) : null;
+  const v = p || { nome: '', codigo: '', local: '', qtd: 0, minimo: 0, custo: 0, preco: 0 };
+  abrirSheet(`<div class="folha">
+      ${cIn('Nome da peça', 'id="pNome" placeholder="Óleo 20W50 1L"', v.nome)}
+      <div class="par">${cIn('Código', 'id="pCodigo" autocomplete="off"', v.codigo || '')}${cIn('Prateleira', 'id="pLocal" placeholder="A2"', v.local || '')}</div>
+      <div class="par">${cIn('Quantidade', 'id="pQtd" inputmode="decimal" placeholder="0"', p ? fmtQtd(v.qtd) : '')}${cIn('Avisar quando tiver', 'id="pMin" inputmode="decimal" placeholder="0"', numCampo(v.minimo))}</div>
+      <div class="par">${cIn('Custo em R$', 'id="pCusto" inputmode="decimal" placeholder="0"', numCampo(v.custo))}${cIn('Venda em R$', 'id="pPreco" inputmode="decimal" placeholder="0"', numCampo(v.preco))}</div>
+    </div>
+    <p class="nota" id="pMargem">${margemTxt(v.custo, v.preco)}</p>
+    <button class="btn primario full mt2" data-act="salvarPeca" data-id="${p ? p.id : ''}">Salvar peça</button>
+    ${p ? `<button class="btn perigo full" data-act="excluirPeca" data-id="${p.id}">Excluir peça</button>` : ''}`, { id: 'sheetPeca', titulo: p ? 'Editar peça' : 'Nova peça' });
+}
+
+/* =========================================================
+   BACKUP
+   ========================================================= */
+async function exportar() {
+  salvarPendente();
+  const arq = new File([JSON.stringify(db)], `backup-oficina-${hojeArquivo()}.json`, { type: 'application/json' });
+  const marcar = () => { db.config.ultimoBackup = Date.now(); salvar(); render(); toast('Backup salvo'); };
+  if (navigator.canShare && navigator.canShare({ files: [arq] })) {
+    try { await navigator.share({ files: [arq] }); marcar(); }
+    catch (e) { if (e.name !== 'AbortError') { baixarArquivo(arq); marcar(); } }
+  } else { baixarArquivo(arq); marcar(); }
+}
+
+function importar(arquivo) {
+  const r = new FileReader();
+  r.onload = () => {
+    let d;
+    try {
+      d = JSON.parse(r.result);
+      if (!d || !Array.isArray(d.os) || !Array.isArray(d.clientes)) throw new Error('formato');
+    } catch (e) { alert('Esse arquivo não é um backup deste app. Escolha o arquivo .json exportado em Ajustes.'); return; }
+    if (!confirm(`Importar o backup com ${pl(d.clientes.length, 'cliente', 'clientes')}, ${pl(d.os.length, 'OS', 'OS')} e ${pl((d.estoque || []).length, 'peça', 'peças')}?\n\nIsso SUBSTITUI todos os dados atuais deste iPhone.`)) return;
+    const anterior = db;
+    try { db = d; normalizar(); }
+    catch (e) { db = anterior; alert('Não foi possível ler o backup.'); return; }
+    salvar(); fecharTudo(); render(); toast('Backup importado');
+  };
+  r.readAsText(arquivo);
+}
+
+/* =========================================================
+   AÇÕES (toques)
+   ========================================================= */
+const ACOES = {
+  aba: el => { salvarPendente(); estado.aba = el.dataset.v; render(); window.scrollTo(0, 0); },
+  fab: () => { if (estado.aba === 'oficina') novaEntrada(); else if (estado.aba === 'clientes') novoCliente(); else if (estado.aba === 'estoque') editarPeca(); },
+  fechar: () => fecharSheet(),
+  filtro: el => { estado.filtro = el.dataset.v; estado.busca = ''; render(); },
+  verBaixo: () => { estado.aba = 'estoque'; estado.filtroEst = 'baixo'; render(); window.scrollTo(0, 0); },
+  instalar: () => instalar(),
+  toastAcao: () => { const f = toastFn; toastFn = null; $('#toast').classList.remove('on'); if (f) f(); },
+
+  /* Oficina */
+  abrirOS: el => abrirOS(el.dataset.id),
+  avancar: el => {
+    const o = ordem(el.dataset.id); if (!o) return;
+    const ant = o.status, prox = PROXIMO[ant]; if (!prox) return;
+    mudarStatus(o, prox);
+    atualizarTela();
+    toast(`Nº ${pad(o.numero)}: ${STATUS[prox].label.toLowerCase()}`, { rotulo: 'Desfazer', fn: () => { mudarStatus(o, ant); atualizarTela(); } });
+    if (prox === 'pronta') perguntarAvisar(o);
+  },
+  wpp: el => {
+    const o = ordem(el.dataset.id); if (!o) return;
+    salvarPendente();
+    abrirWpp((cliente(o.clienteId) || {}).telefone, montarMsg(el.dataset.tipo, o));
+  },
+  wppFechar: el => { ACOES.wpp(el); fecharSheet(); },
+  outrasMsgs: el => outrasMsgs(el.dataset.id),
+
+  /* Nova entrada */
+  selMoto: el => { const m = moto(el.dataset.id); if (!m || !entrada) return; entrada.motoId = m.id; entrada.clienteId = m.clienteId; rerenderEntrada(); },
+  trocarMoto: () => { entrada.motoId = null; entrada.clienteId = null; rerenderEntrada(); },
+  selCliente: el => { if (!entrada) return; entrada.clienteId = el.dataset.id; rerenderEntrada(); },
+  trocarCliente: () => { entrada.clienteId = null; rerenderEntrada(); },
+  criarOS: () => criarOS(),
+
+  /* OS */
+  mudarSituacao: () => mudarSituacao(),
+  setStatusFechar: el => {
+    fecharSheet();
+    const s = el.dataset.v;
+    if (!osAtual || osAtual.status === s) return;
+    mudarStatus(osAtual, s);
+    rerenderOS();
+    toast(`Situação: ${STATUS[s].label.toLowerCase()}`);
+    if (s === 'pronta') perguntarAvisar(osAtual);
+  },
+  toggleFeito: el => {
+    const s = osAtual && osAtual.servicos[+el.dataset.i]; if (!s) return;
+    s.feito = !s.feito;
+    salvarOS(osAtual);
+    el.closest('.svc').classList.toggle('feito', s.feito);
+    const cont = $('#contFeitos');
+    if (cont) cont.textContent = `${osAtual.servicos.filter(x => x.feito).length} de ${osAtual.servicos.length} feitos`;
+  },
+  addServico: () => { osAtual.servicos.push({ id: uid(), desc: '', valor: 0, feito: false }); salvarOS(osAtual); rerenderOS(); focarUltimo('[data-svc="desc"]'); },
+  addRapido: el => {
+    const r = db.config.servicosRapidos[+el.dataset.i]; if (!r || !osAtual) return;
+    osAtual.servicos.push({ id: uid(), desc: r.d, valor: +r.v || 0, feito: false });
+    salvarOS(osAtual); rerenderOS();
+    if (!+r.v) focarUltimo('[data-svc="valor"]'); else toast(`${r.d} adicionado`);
+  },
+  delServico: el => { osAtual.servicos.splice(+el.dataset.i, 1); salvarOS(osAtual); rerenderOS(); },
+  pickPeca: () => abrirPick(),
+  escolherPeca: el => {
+    const p = peca(el.dataset.id); if (!p || !osAtual) return;
+    const l = osAtual.pecas.find(x => x.pecaId === p.id);
+    if (l) l.qtd = (+l.qtd || 0) + 1;
+    else osAtual.pecas.push({ id: uid(), pecaId: p.id, desc: p.nome, qtd: 1, preco: +p.preco || 0 });
+    salvarOS(osAtual);
+    fecharSheet();
+    rerenderOS();
+    toast(`${p.nome} adicionada`);
+  },
+  novaPecaPick: () => editarPeca(),
+  addAvulsa: () => { osAtual.pecas.push({ id: uid(), pecaId: null, desc: '', qtd: 1, preco: 0 }); salvarOS(osAtual); rerenderOS(); focarUltimo('[data-pc="desc"]'); },
+  qtdPeca: el => {
+    const l = osAtual && osAtual.pecas[+el.dataset.i]; if (!l) return;
+    l.qtd = Math.max(1, (+l.qtd || 1) + (+el.dataset.d));
+    salvarOS(osAtual); rerenderOS();
+  },
+  delPeca: el => { osAtual.pecas.splice(+el.dataset.i, 1); salvarOS(osAtual); rerenderOS(); },
+  documento: () => abrirDocumento(),
+  tipoDoc: el => gerarDocumento(el.dataset.v),
+  compartilharDoc: async () => {
+    if (!docAtual) { toast('A imagem ainda está sendo gerada'); return; }
+    const f = docAtual.file;
+    if (navigator.canShare && navigator.canShare({ files: [f] })) {
+      try { await navigator.share({ files: [f] }); }
+      catch (e) { if (e.name !== 'AbortError') baixarArquivo(f); }
+    } else baixarArquivo(f);
+  },
+  excluirOS: () => {
+    const o = osAtual; if (!o) return;
+    const msg = o.status === 'entregue'
+      ? `Excluir a OS Nº ${pad(o.numero)} do histórico?\n\nAs peças NÃO voltam para o estoque, porque a moto já foi entregue.`
+      : `Excluir a OS Nº ${pad(o.numero)}?\n\nAs peças que saíram do estoque voltam para a prateleira.`;
+    if (!confirm(msg)) return;
+    removerOS(o);
+    salvar();
+    osAtual = null;
+    fecharAte('sheetOS');
+    fecharSheet();
+    toast('OS excluída');
+  },
+
+  /* Clientes */
+  abrirCliente: el => abrirCliente(el.dataset.id),
+  salvarNovoCliente: () => {
+    const nome = $('#ncNome').value.trim();
+    if (!nome) { toast('Informe o nome do cliente'); return; }
+    const c = { id: uid(), nome, telefone: $('#ncFone').value.trim(), obs: $('#ncObs').value.trim(), criadoEm: Date.now() };
+    db.clientes.push(c);
+    salvar();
+    fecharSheet();
+    render();
+    abrirCliente(c.id);
+    editarMoto(null, c.id);
+  },
+  wppCliente: el => {
+    const c = cliente(el.dataset.id); if (!c) return;
+    salvarPendente();
+    abrirWpp(c.telefone, `Olá, ${primeiroNome(c.nome)}! Aqui é da ${db.config.oficina}.`);
+  },
+  editarMoto: el => editarMoto(el.dataset.id || null, el.dataset.cliente || null),
+  salvarMoto: el => {
+    const placa = fmtPlaca($('#mPlaca').value), modelo = $('#mModelo').value.trim();
+    if (!placa && !modelo) { toast('Informe a placa ou o modelo'); return; }
+    const id = el.dataset.id;
+    if (placa) {
+      const dup = db.motos.find(m => m.id !== id && compacto(m.placa) === compacto(placa));
+      if (dup) { toast(`Essa placa já está na ficha de ${(cliente(dup.clienteId) || {}).nome || 'outro cliente'}`); return; }
+    }
+    const dados = { placa, modelo, ano: $('#mAno').value.trim(), cor: $('#mCor').value.trim(), obs: $('#mObs').value.trim() };
+    if (id) Object.assign(moto(id), dados);
+    else db.motos.push(Object.assign({ id: uid(), clienteId: el.dataset.cliente }, dados));
+    salvar();
+    fecharSheet();
+    atualizarTela();
+    toast('Moto salva');
+  },
+  excluirMoto: el => {
+    const m = moto(el.dataset.id); if (!m) return;
+    const oss = db.os.filter(o => o.motoId === m.id);
+    if (!confirm(`Excluir a moto ${m.placa || m.modelo}${oss.length ? ` e ${pl(oss.length, 'ordem de serviço', 'ordens de serviço')} dela` : ''}?`)) return;
+    oss.forEach(removerOS);
+    db.motos = db.motos.filter(x => x !== m);
+    salvar();
+    const cid = m.clienteId;
+    fecharTudo();
+    abrirCliente(cid);
+    toast('Moto excluída');
+  },
+  novaOSMoto: el => novaEntrada(el.dataset.id),
+  excluirCliente: el => {
+    const c = cliente(el.dataset.id); if (!c) return;
+    const ms = db.motos.filter(m => m.clienteId === c.id);
+    const oss = db.os.filter(o => o.clienteId === c.id || ms.some(m => m.id === o.motoId));
+    if (!confirm(`Excluir ${c.nome}${ms.length ? `, ${pl(ms.length, 'moto', 'motos')}` : ''}${oss.length ? ` e ${pl(oss.length, 'ordem de serviço', 'ordens de serviço')}` : ''}?\n\nIsso não pode ser desfeito.`)) return;
+    oss.forEach(removerOS);
+    db.motos = db.motos.filter(m => m.clienteId !== c.id);
+    db.clientes = db.clientes.filter(x => x !== c);
+    salvar();
+    fecharTudo();
+    toast('Cliente excluído');
+  },
+
+  /* Estoque */
+  filtroEst: el => { estado.filtroEst = el.dataset.v; render(); },
+  editarPeca: el => editarPeca(el.dataset.id),
+  salvarPeca: el => {
+    const nome = $('#pNome').value.trim();
+    if (!nome) { toast('Informe o nome da peça'); return; }
+    const dados = { nome, codigo: $('#pCodigo').value.trim(), local: $('#pLocal').value.trim(), qtd: num($('#pQtd').value), minimo: num($('#pMin').value), custo: num($('#pCusto').value), preco: num($('#pPreco').value) };
+    const id = el.dataset.id;
+    if (id && peca(id)) Object.assign(peca(id), dados);
+    else db.estoque.push(Object.assign({ id: uid(), criadoEm: Date.now() }, dados));
+    salvar();
+    fecharSheet();
+    atualizarTela();
+    toast('Peça salva');
+  },
+  excluirPeca: el => {
+    const p = peca(el.dataset.id); if (!p) return;
+    if (!confirm(`Excluir “${p.nome}” do estoque?\n\nAs ordens de serviço que usaram essa peça continuam com ela registrada.`)) return;
+    db.estoque = db.estoque.filter(x => x !== p);
+    salvar();
+    fecharSheet();
+    atualizarTela();
+    toast('Peça excluída');
+  },
+  ajEst: el => {
+    const p = peca(el.dataset.id); if (!p) return;
+    p.qtd = (+p.qtd || 0) + (+el.dataset.d);
+    salvar();
+    render();
+  },
+
+  /* Ajustes */
+  exportar: () => exportar(),
+  restaurarMsgs: () => { if (!confirm('Voltar as três mensagens para o texto original?')) return; Object.assign(db.config, MSG_PADRAO); salvar(); render(); toast('Mensagens restauradas'); },
+  addRapidoCfg: () => {
+    db.config.servicosRapidos.push({ d: '', v: 0 });
+    salvar(); render();
+    const els = document.querySelectorAll('[data-rap="d"]');
+    if (els.length) els[els.length - 1].focus();
+  },
+  delRapidoCfg: el => { db.config.servicosRapidos.splice(+el.dataset.i, 1); salvar(); render(); },
+  apagarTudo: () => {
+    if (!confirm('Apagar TODOS os clientes, motos, ordens de serviço e estoque?\n\nOs dados da oficina e as mensagens continuam.')) return;
+    if (!confirm('Tem certeza? Sem um backup, isso não pode ser desfeito.')) return;
+    const cfg = db.config;
+    db = dbPadrao();
+    db.config = cfg;
+    salvar(); fecharTudo(); render();
+    toast('Dados apagados');
+  }
+};
+
+/* =========================================================
+   EVENTOS
+   ========================================================= */
+document.addEventListener('click', e => {
+  if (!db) return; /* ainda carregando os dados */
+  const el = e.target.closest('[data-act]');
+  if (!el) return;
+  const fn = ACOES[el.dataset.act];
+  if (!fn) return;
+  e.preventDefault();
+  fn(el, e);
+});
+
+function aoDigitar(e) {
+  if (!db) return;
+  const el = e.target, d = el.dataset || {};
+  if (el.id === 'arqImport') {
+    if (e.type === 'change' && el.files && el.files[0]) { const f = el.files[0]; el.value = ''; importar(f); }
+    return;
+  }
+  if (el.id === 'buscaOS') {
+    estado.busca = el.value;
+    $('#lista').innerHTML = listaOS();
+    document.querySelectorAll('.filtros button').forEach(b => b.classList.toggle('on', !estado.busca && b.dataset.v === estado.filtro));
+    return;
+  }
+  if (el.id === 'buscaCli') { estado.buscaCli = el.value; $('#lista').innerHTML = listaClientes(); return; }
+  if (el.id === 'buscaEst') { estado.buscaEst = el.value; $('#lista').innerHTML = listaEstoque(); return; }
+  if (el.id === 'buscaPick') { $('#listaPick').innerHTML = listaPick(el.value); return; }
+  if (el.id === 'pCusto' || el.id === 'pPreco') { $('#pMargem').textContent = margemTxt(num($('#pCusto').value), num($('#pPreco').value)); return; }
+
+  if (d.en && entrada) {
+    entrada[d.en] = el.value;
+    if (d.en === 'placa') sugerirMotos(el.value);
+    if (d.en === 'nome' || d.en === 'fone') sugerirClientes(el.value);
+    return;
+  }
+  if (d.os && osAtual) {
+    osAtual[d.os] = d.os === 'desconto' ? num(el.value) : el.value;
+    osAtual.atualizadoEm = Date.now();
+    salvarDepois();
+    if (d.os === 'desconto') atualizarTotais();
+    return;
+  }
+  if (d.svc && osAtual) {
+    const s = osAtual.servicos[+d.i]; if (!s) return;
+    if (d.svc === 'valor') s.valor = num(el.value); else s.desc = el.value;
+    salvarDepois();
+    atualizarTotais();
+    return;
+  }
+  if (d.pc && osAtual) {
+    const l = osAtual.pecas[+d.i]; if (!l) return;
+    if (d.pc === 'preco') l.preco = num(el.value); else l.desc = el.value;
+    salvarDepois();
+    atualizarTotais();
+    const tt = $('#pcTot' + d.i);
+    if (tt) tt.textContent = dinheiro((+l.qtd || 0) * (+l.preco || 0));
+    return;
+  }
+  if (d.cli) {
+    const c = cliente(d.id); if (!c) return;
+    c[d.cli] = el.value;
+    salvarDepois();
+    return;
+  }
+  if (d.cfg) {
+    db.config[d.cfg] = d.cfg === 'validade' ? Math.max(0, parseInt(el.value, 10) || 0) : el.value;
+    salvarDepois();
+    return;
+  }
+  if (d.rap) {
+    const r = db.config.servicosRapidos[+d.i]; if (!r) return;
+    if (d.rap === 'v') r.v = num(el.value); else r.d = el.value;
+    salvarDepois();
+  }
+}
+document.addEventListener('input', aoDigitar);
+document.addEventListener('change', aoDigitar);
+
+/* Esconde a barra de baixo enquanto o teclado está aberto */
+document.addEventListener('focusin', e => { if (e.target.matches('input:not([type=file]),textarea,select')) document.documentElement.classList.add('digitando'); });
+document.addEventListener('focusout', () => setTimeout(() => {
+  if (!document.activeElement || !document.activeElement.matches('input,textarea,select')) document.documentElement.classList.remove('digitando');
+}, 60));
+
+document.addEventListener('visibilitychange', () => { if (document.hidden) salvarPendente(); });
+window.addEventListener('pagehide', salvarPendente);
+
+/* =========================================================
+   INÍCIO
+   ========================================================= */
+carregar()
+  .catch(() => { if (!db) db = dbPadrao(); })
+  .then(() => render());
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
+</script>
+</body>
+</html>
